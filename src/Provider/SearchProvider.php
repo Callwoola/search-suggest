@@ -18,7 +18,7 @@ class SearchProvider extends ServiceProvider
     {
         $this->app->bindShared('search', function ($app) {
             $path = 'Callwoola\\SearchSuggest\\SearchClient';
-            //$config = $app['config']->get('sipin/search::config');
+            //$config = $app['config']->get('Callwoola/search::config');
             return new $path();
         });
         $this->commands($this->commands);
