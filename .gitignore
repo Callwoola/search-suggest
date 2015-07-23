@@ -290,3 +290,5 @@ tests/tmp/*
 /indexdb
 /img/tmp/*
 !/img/tmp/.gitkeep
+
+/up.php
