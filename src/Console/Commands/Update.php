@@ -1,11 +1,11 @@
 <?php
-namespace Callwoola\Search\Console\Commands;
+namespace Callwoola\Searchsuggest\Console\Commands;
 
-use Callwoola\Search\lib\Indexdata\AnalyzeManage;
-use Callwoola\Search\lib\Indexdata\IndexManage;
-use Callwoola\Search\lib\SearchCache;
-use Callwoola\Search\lib\ElasticsearchSearch;
-use Callwoola\Search\lib\Indexdata\DataManage;
+use Callwoola\Searchsuggest\lib\Indexdata\AnalyzeManage;
+use Callwoola\Searchsuggest\lib\Indexdata\IndexManage;
+use Callwoola\Searchsuggest\lib\SearchCache;
+use Callwoola\Searchsuggest\lib\ElasticsearchSearch;
+use Callwoola\Searchsuggest\lib\Indexdata\DataManage;
 use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
@@ -18,7 +18,7 @@ class Update extends Command
      *
      * @var string
      */
-    protected $name = 'search:update';
+    protected $name = 'suggest:update';
 
     /**
      * The console command description.
@@ -44,23 +44,7 @@ class Update extends Command
      */
     public function fire()
     {
-        $start = microtime(true);
         $this->info('Update Callwoola-search Cache...');
-        $indexManage = new IndexManage();
-        $indexManage->byElasticsearch();
-        $this->info("Create Elasticsearch Index successful!");
-        $AnalyzeManage = new AnalyzeManage();
-        $cacheInitials = $AnalyzeManage->getCacheInitials();
-        $cachePinyin = $AnalyzeManage->getCachePinyin(1);
-        $cacheFuzzySoundPinyin = $AnalyzeManage->getCacheFuzzySoundPinyin(1);
-        $testdata = $AnalyzeManage->mergeData($cacheInitials, $cachePinyin, $cacheFuzzySoundPinyin);
-        SearchCache::init()->setPinyinIndex($testdata);
-        $this->info("Create Pinyin Cache Index successful!");
-        $chineseList = $AnalyzeManage->getCacheChinese();
-        SearchCache::init()->setChineseIndex($chineseList);
-        $timeElapsed = microtime(true) - $start;
-        $this->info("Create Chinese Cache Index successful!");
-        $this->info(" Total time: $timeElapsed second");
     }
 
     /**

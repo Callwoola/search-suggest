@@ -1,5 +1,5 @@
 <?php
-namespace Callwoola\Search\lib;
+namespace Callwoola\Searchsuggest\lib;
 interface SearchInterface
 {
 
