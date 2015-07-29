@@ -1,11 +1,10 @@
 <?php
 
-namespace Callwoola\Search\lib;
+namespace Callwoola\Searchsuggest\lib;
 
 use Predis\Client;
-use Elasticsearch\ClientBuilder;
-use Callwoola\Search\Config\Configuration;
-use Callwoola\Search\lib\Translate\Pinyin;
+use Callwoola\Searchsuggest\Config\Configuration;
+use Callwoola\Searchsuggest\lib\Translate\Pinyin;
 
 class SearchCache
 {
@@ -59,13 +58,11 @@ class SearchCache
                 if (count(Pinyin::init()->stringToArray($singleWord)) >= 2) {
                     self::$client->sadd(
                         self::keyLocalSet($k),
-                        //self::$config['key'] .($indexName === null ? self::$config['index'] : $indexName) . ':' . $k,
                         $singleWord
                     );
                 }
             }
         }
-        //create count list
     }
 
     /**
@@ -107,8 +104,8 @@ class SearchCache
         $returnList = [];
         foreach ($searchList as $key => $word) {
             $returnList[] = [
-                'title' => $word,
-                'count' => self::getCountNum($word),
+                'name' => $word,
+//                'count' => self::getCountNum($word),
             ];
         }
         return $returnList;
@@ -152,8 +149,8 @@ class SearchCache
             $body['size'] = 1000;
             $body['query']['match'] = ['title' => $key];
             $params = [
-                'index' => 'goods',
-                'type' => 'goods',
+                'index' => 'woola',
+                'type' => 'woola',
                 'body' => $body
             ];
             $response = $client->search($params);

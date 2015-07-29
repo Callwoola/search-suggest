@@ -1,9 +1,10 @@
 <?php
-namespace Callwoola\Search\lib;
+namespace Callwoola\Searchsuggest\lib;
 
-use Elasticsearch\ClientBuilder;
-use Callwoola\Search\lib\Indexdata\IndexManage;
-use Callwoola\Search\Config\Configuration;
+//use Elasticsearch\ClientBuilder;
+use Callwoola\Searchsuggest\lib\IndexManage;
+use Callwoola\Searchsuggest\Config\Configuration;
+
 class ElasticsearchSearch implements SearchInterface
 {
     use Configuration;

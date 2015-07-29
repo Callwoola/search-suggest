@@ -13,6 +13,7 @@ class SearchClient
      * 搜索提示 补全 接口
     */
 	function getSuggest($keyword=""){
+        if($keyword==='')return [];
         return SearchCache::init()->searchPinyin($keyword);
 	}
 }
