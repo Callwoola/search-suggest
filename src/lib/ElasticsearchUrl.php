@@ -48,7 +48,7 @@ class ElasticsearchUrl
      */
     public function setHost($host = "")
     {
-        if ($host == '') {
+        if ($host != '') {
             $this->host = $host . '/';
         } else {
             $this->host = 'http://127.0.0.1:9200/';//default host
@@ -110,6 +110,7 @@ class ElasticsearchUrl
     public function get($type = 'GET')
     {
         //return json_decode(file_get_contents($this->getUrl()));
+        echo $this->getUrl();
         return $this->curl($this->getUrl(), $type);
     }
 
