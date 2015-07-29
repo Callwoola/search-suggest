@@ -1,7 +1,7 @@
 <?php
 namespace Callwoola\Searchsuggest;
 
-//use woola\Search\lib\ElasticsearchUrl;
+use Callwoola\Searchsuggest\lib\SearchCache;
 
 /**
  *  KEY_TYPE select adapter
@@ -9,17 +9,11 @@ namespace Callwoola\Searchsuggest;
 
 class SearchClient
 {
-	function getSuggest($keyword){
-		return ['test',"test"];
+    /**
+     * 搜索提示 补全 接口
+    */
+	function getSuggest($keyword=""){
+        return SearchCache::init()->searchPinyin($keyword);
 	}
-
-    function updateList()
-    {
-
-    }
-
-    function analyze($string){
-
-    }
 }
 
