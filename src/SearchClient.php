@@ -2,7 +2,7 @@
 namespace Callwoola\Searchsuggest;
 
 use Callwoola\Searchsuggest\lib\SearchCache;
-
+use Callwoola\Searchsuggest\lib\AnalyzeManage;
 /**
  *  KEY_TYPE select adapter
  */
@@ -11,10 +11,25 @@ class SearchClient
 {
     /**
      * 搜索提示 补全 接口
-    */
-	function getSuggest($keyword=""){
+     */
+    public function getSuggest($keyword=""){
         if($keyword==='')return [];
         return SearchCache::init()->searchPinyin($keyword);
-	}
+    }
+
+    /**
+     * 添加 更新 缓存服务
+     */
+    public function indexDict($arr=[])
+    {
+        $AnalyzeManage = new AnalyzeManage();
+        $AnalyzeManage->setDictArr($arr);
+        $wordsInit = $AnalyzeManage->getCacheInitials();
+        $wordsPinyin = $AnalyzeManage->getCachePinyin();
+        $wordsFuzzySoundPinyin = $AnalyzeManage->getCacheFuzzySoundPinyin();
+        $cacheData=$AnalyzeManage->mergeData($wordsInit, $wordsPinyin, $wordsFuzzySoundPinyin);
+        SearchCache::init()->setPinyinIndex($cacheData);
+
+    }
 }
 

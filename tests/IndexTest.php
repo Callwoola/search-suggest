@@ -1,25 +1,15 @@
 <?php
 
-use Callwoola\Searchsuggest\SearchClient;
-use Callwoola\Searchsuggest\lib\ElasticsearchUrl;
-use Callwoola\Searchsuggest\analysis\ChineseAnalysis;
 use Callwoola\Searchsuggest\lib\AnalyzeManage;
-use Callwoola\Searchsuggest\lib\IndexManage;
-
 use Callwoola\Searchsuggest\lib\SearchCache;
 
-use Illuminate\Console\Command;
 
 class ssTest extends PHPUnit_Framework_TestCase
 {
-    //protected $Client;
-    //protected $config;
 
     protected function setUp()
     {
-        //$_ENV['SEARCH_KEY_TYPE'] = 'elastsearch';
-        //$config = require __DIR__ . '/../src/config/config.php';
-        //$this->Client = new ElasticsearchSearch();
+
     }
 
 
