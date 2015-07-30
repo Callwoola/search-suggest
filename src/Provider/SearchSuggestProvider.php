@@ -1,0 +1,28 @@
+<?php
+namespace Callwoola\SearchSuggest\Provider;
+
+use Illuminate\Support\ServiceProvider;
+
+class SearchSuggestProvider extends ServiceProvider
+{
+//    private $commands = [
+//        '\Callwoola\Search\Console\Commands\Update',
+//    ];
+
+//    public function boot()
+//    {
+//        $this->package('Callwoola/searchsuggest', 'Callwoola/searchsuggest', __DIR__ . '/..');
+//    }
+
+    /**
+     * 搜索提示服务
+    */
+    public function register()
+    {
+        $this->app->bindShared('SearchSuggest', function ($app) {
+            $path = 'Callwoola\\SearchSuggest\\SearchClient';
+            return new $path();
+        });
+//        $this->commands($this->commands);
+    }
+}
