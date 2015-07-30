@@ -3,12 +3,12 @@ namespace Callwoola\Search\Provider\Facades;
 
 use Illuminate\Support\Facades\Facade;
 
-class Search extends Facade
+class SearchSuggest extends Facade
 {
 
     protected static function getFacadeAccessor()
     {
-        return 'search';
+        return 'SearchSuggest';
     }
 
 }

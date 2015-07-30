@@ -17,7 +17,7 @@ class SearchClient
         $_ENV['REDIS_DEFAULT_HOST'] = '127.0.0.1';
         $_ENV['REDIS_DEFAULT_PORT'] = '6379';
     }
-s
+
     /**
      * 搜索提示 补全 接口
      */
@@ -39,7 +39,6 @@ s
         $wordsFuzzySoundPinyin = $AnalyzeManage->getCacheFuzzySoundPinyin();
         $cacheData = $AnalyzeManage->mergeData($wordsInit, $wordsPinyin, $wordsFuzzySoundPinyin);
         SearchCache::init()->setPinyinIndex($cacheData);
-
     }
 }
 
