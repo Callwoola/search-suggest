@@ -21,12 +21,11 @@
         "phpunit/phpunit": "4.6.*",
         "mockery/mockery": "~0.9",
         "monolog/monolog": "~1.0",
-        "illuminate/database": "~4.2",
         "illuminate/console": "~4"
     },
     "autoload": {
         "psr-4": {
-            "callwoola\\Searchsuggest\\": "src/"
+            "Callwoola\\Searchsuggest\\": "src/"
         }
     },
     "extra": {
