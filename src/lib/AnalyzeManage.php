@@ -11,7 +11,7 @@ use Callwoola\Searchsuggest\analysis\ChineseAnalysis;
  * 通过ik 词库 进行分词，同时检查Callwoola.dat 是否有特定的分词条件
  *
  */
-class AnalyzeManage extends ElasticsearchUrl
+class AnalyzeManage
 {
     use Configuration;
     public $arr=[];
@@ -287,19 +287,12 @@ class AnalyzeManage extends ElasticsearchUrl
      */
     public function getCacheChinese()
     {
-        $dataManage = new DataManage();
-        $goodsData = $dataManage->getGoodsRecord();
-        $chineseList=[];
+        $dictList=$this->getAnalyzeDict();
         // get all chinese string
-        foreach ($goodsData as $k => $v) {
-            $v = (object)$v;
-            $search = $v->title . $v->subtitle . $v->attribute_name;
-            $chineseList=array_unique(array_merge($this->getAnalyze($search),$chineseList));
-        }
-
-        //filter item
+        // for what ?
+        // 现在 是直接通过 keys 储存 也就是说 keys
         $filterList=[];
-        foreach ($chineseList as $v) {
+        foreach ($dictList as $v) {
             if(!preg_match("/[a-z|A-Z|0-9|\\s]+/i",$v)){
                 if(count(Pinyin::init()->stringToArray($v))>=2){
                     $filterList[]=$v;

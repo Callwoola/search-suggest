@@ -53,7 +53,7 @@ class SearchCache
     public function setPinyinIndex($value, $indexName = null)
     {
         foreach ($value as $k => $words) {
-            self::$client->del(self::keyLocalSet($k));
+//            self::$client->del(self::keyLocalSet($k));
             foreach ($words as $singleWord) {
                 if (count(Pinyin::init()->stringToArray($singleWord)) >= 2) {
                     self::$client->sadd(
@@ -66,14 +66,25 @@ class SearchCache
     }
 
     /**
+     * 清空数据库
+     * @return void
+     */
+    public function ClearDatabase(){
+        self::$client->flushdb();
+    }
+
+    /**
      *  设置中文拼音缓存
      * @return void
      */
     public function setChineseIndex($value, $indexName = null)
     {
-        foreach ($value as $k => $words) {
-            self::$client->del(self::keyLocalSet($words, self::$config['index_chinese']));
-            self::$client->set(self::keyLocalSet($words, self::$config['index_chinese']), $words);
+        foreach ($value as $k=> $words) {
+            self::$client->sadd(
+                self::keyLocalSet($words),
+                $words
+            );
+            //self::$client->set(self::keyLocalSet($words, self::$config['index_chinese']), $words);
         }
     }
 
