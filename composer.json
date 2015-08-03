@@ -1,5 +1,5 @@
 {
-    "name": "callwoola/searchsuggest",
+    "name": "Callwoola/SearchSuggest",
     "description": "Search suggest , search auto complete",
     "keywords": [
         "suggest",
@@ -25,7 +25,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Callwoola\\Searchsuggest\\": "src/"
+            "Callwoola\\SearchSuggest\\": "src/"
         }
     },
     "extra": {
