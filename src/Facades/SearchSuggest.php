@@ -8,7 +8,7 @@ class SearchSuggest extends Facade
 
     protected static function getFacadeAccessor()
     {
-        return 'Callwoola\SearchSuggest\Provider\SearchSuggestProvider';
+        return 'Callwoola\SearchSuggest\SearchClient';
     }
 
 }

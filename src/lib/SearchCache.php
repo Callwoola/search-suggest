@@ -1,10 +1,10 @@
 <?php
 
-namespace Callwoola\Searchsuggest\lib;
+namespace Callwoola\SearchSuggest\lib;
 
 use Predis\Client;
-use Callwoola\Searchsuggest\Config\Configuration;
-use Callwoola\Searchsuggest\lib\Translate\Pinyin;
+use Callwoola\SearchSuggest\Config\Configuration;
+use Callwoola\SearchSuggest\lib\Translate\Pinyin;
 
 class SearchCache
 {
