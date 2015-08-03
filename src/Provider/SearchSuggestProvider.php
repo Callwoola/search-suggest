@@ -19,9 +19,10 @@ class SearchSuggestProvider extends ServiceProvider
     */
     public function register()
     {
-        $this->app->bindShared('SearchSuggest', function ($app) {
-            $path = 'Callwoola\\SearchSuggest\\SearchClient';
-            return new $path();
+        $this->app->bind('SearchSuggest', function () {
+//            $path = 'Callwoola\\SearchSuggest\\SearchClient';
+            return \Callwoola\SearchSuggest\SearchClient;
+//            return new $path();
         });
         // remove useless code
 //        $this->commands($this->commands);

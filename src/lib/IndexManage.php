@@ -1,6 +1,6 @@
 <?php
 
-namespace Callwoola\Searchsuggest\lib;
+namespace Callwoola\SearchSuggest\lib;
 
 //use Callwoola\Searchsuggest\SDK\CloudsearchIndex;
 //use Callwoola\Searchsuggest\SDK\CloudsearchDoc;

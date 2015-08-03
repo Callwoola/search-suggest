@@ -1,7 +1,7 @@
 <?php
 
-use Callwoola\Searchsuggest\lib\AnalyzeManage;
-use Callwoola\Searchsuggest\lib\SearchCache;
+use Callwoola\SearchSuggest\lib\AnalyzeManage;
+use Callwoola\SearchSuggest\lib\SearchCache;
 
 
 class ssTest extends PHPUnit_Framework_TestCase

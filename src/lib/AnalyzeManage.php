@@ -1,12 +1,12 @@
 <?php
 
-namespace Callwoola\Searchsuggest\lib;
+namespace Callwoola\SearchSuggest\lib;
 
 
-use Callwoola\Searchsuggest\lib\Translate\Pinyin;
-use Callwoola\Searchsuggest\Config\Configuration;
+use Callwoola\SearchSuggest\lib\Translate\Pinyin;
+use Callwoola\SearchSuggest\Config\Configuration;
 
-use Callwoola\Searchsuggest\analysis\ChineseAnalysis;
+use Callwoola\SearchSuggest\analysis\ChineseAnalysis;
 /**
  * 通过ik 词库 进行分词，同时检查Callwoola.dat 是否有特定的分词条件
  *

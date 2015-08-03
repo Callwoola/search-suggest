@@ -1,14 +1,14 @@
 <?php
 namespace Callwoola\Searchsuggest\Console\Commands;
 
-use Callwoola\Searchsuggest\lib\Indexdata\AnalyzeManage;
-use Callwoola\Searchsuggest\lib\Indexdata\IndexManage;
-use Callwoola\Searchsuggest\lib\SearchCache;
-use Callwoola\Searchsuggest\lib\ElasticsearchSearch;
-use Callwoola\Searchsuggest\lib\Indexdata\DataManage;
-use Illuminate\Console\Command;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Input\InputArgument;
+//use Callwoola\SearchSuggest\lib\Indexdata\AnalyzeManage;
+//use Callwoola\SearchSuggest\lib\Indexdata\IndexManage;
+//use Callwoola\SearchSuggest\lib\SearchCache;
+//use Callwoola\SearchSuggest\lib\ElasticsearchSearch;
+//use Callwoola\SearchSuggest\lib\Indexdata\DataManage;
+//use Illuminate\Console\Command;
+//use Symfony\Component\Console\Input\InputOption;
+//use Symfony\Component\Console\Input\InputArgument;
 
 class Update extends Command
 {
