@@ -37,8 +37,15 @@ class SearchClient
         $wordsInit = $AnalyzeManage->getCacheInitials();
         $wordsPinyin = $AnalyzeManage->getCachePinyin();
         $wordsFuzzySoundPinyin = $AnalyzeManage->getCacheFuzzySoundPinyin();
+        // Added Chinese Cache
+
+        // Cacheing.. chinese pinyin keys
         $cacheData = $AnalyzeManage->mergeData($wordsInit, $wordsPinyin, $wordsFuzzySoundPinyin);
         SearchCache::init()->setPinyinIndex($cacheData);
+
+        // Cacheing.. chinese keys
+        $wordsChinese = $AnalyzeManage->getCacheChinese();
+        SearchCache::init()->setChineseIndex($wordsChinese);
     }
 }
 

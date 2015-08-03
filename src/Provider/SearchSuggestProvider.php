@@ -23,6 +23,7 @@ class SearchSuggestProvider extends ServiceProvider
             $path = 'Callwoola\\SearchSuggest\\SearchClient';
             return new $path();
         });
+        // remove useless code
 //        $this->commands($this->commands);
     }
 }
