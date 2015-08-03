@@ -1,5 +1,5 @@
 <?php
-namespace Callwoola\SearchSuggest\Provider\Facades;
+namespace Callwoola\SearchSuggest\Facades;
 
 use Illuminate\Support\Facades\Facade;
 
