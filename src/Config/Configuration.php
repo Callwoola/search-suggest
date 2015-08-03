@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Callwoola\Searchsuggest\Config;
+namespace Callwoola\SearchSuggest\Config;
 /**
  * Class Configuration
  * @package Callwoola\Setup\Configurations

@@ -1,5 +1,5 @@
 <?php
-namespace Callwoola\Searchsuggest\analysis;
+namespace Callwoola\SearchSuggest\analysis;
 
 /*
  * 居于Unicode编码词典的php分词器

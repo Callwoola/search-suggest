@@ -1,5 +1,5 @@
 <?php
-namespace Callwoola\Search\Provider\Facades;
+namespace Callwoola\SearchSuggest\Facades;
 
 use Illuminate\Support\Facades\Facade;
 
@@ -8,7 +8,7 @@ class SearchSuggest extends Facade
 
     protected static function getFacadeAccessor()
     {
-        return 'SearchSuggest';
+        return 'Callwoola\SearchSuggest\SearchClient';
     }
 
 }

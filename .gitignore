@@ -292,3 +292,6 @@ tests/tmp/*
 !/img/tmp/.gitkeep
 
 /up.php
+
+/*.sh
+/*.bat
