@@ -26,12 +26,12 @@ class AnalysisTest extends PHPUnit_Framework_TestCase
         $getInfo=true;
         $sign='-';
         $result=$pa->GetFinallyResult($sign,$getInfo);
-            $result=explode($sign,$result);
-            $filterResult=[];
-            foreach($result as $k=>$value){
-                if (preg_match('/\/n/i', $value) === 1) {
-                    $filterResult[]=$value;
-                }
+        $result=explode($sign,$result);
+        $filterResult=[];
+        foreach($result as $k=>$value){
+            if (preg_match('/\/n/i', $value) === 1) {
+                $filterResult[]=$value;
+            }
         }
         $this->assertTrue(count($filterResult)>0);
     }
