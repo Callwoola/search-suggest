@@ -21,7 +21,6 @@ class AnalysisTest extends PHPUnit_Framework_TestCase
         $pa->differMax = false;
         $pa->unitWord = false;
         $pa->StartAnalysis(true);
-        $this->assertTrue(is_array($pa->GetFinallyIndex()));
 //        $resultArray=$pa->GetFinallyIndex();
         $getInfo=true;
         $sign='-';
@@ -30,10 +29,13 @@ class AnalysisTest extends PHPUnit_Framework_TestCase
         $filterResult=[];
         foreach($result as $k=>$value){
             if (preg_match('/\/n/i', $value) === 1) {
-                $filterResult[]=$value;
+                $arrValue=explode('/',$value);
+                $filterResult[$arrValue[0]]=(int)preg_replace('/(n[a-z|A-Z]*)/','',$arrValue[1]);
             }
         }
+
         $this->assertTrue(count($filterResult)>0);
+
     }
 
 
