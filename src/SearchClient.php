@@ -41,6 +41,9 @@ class SearchClient
         $AnalyzeManage = new AnalyzeManage();
         $AnalyzeManage->setDictArr($arr);
 
+        //添加可以添加 私有词库
+        $AnalyzeManage->addSelfDict($localDict);
+
         $wordsInit = $AnalyzeManage->getCacheInitials();
         $wordsPinyin = $AnalyzeManage->getCachePinyin();
 
