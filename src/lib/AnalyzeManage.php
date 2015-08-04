@@ -16,6 +16,10 @@ class AnalyzeManage
     use Configuration;
     public $arr=[];
 
+    /**
+     * @param string $str
+     * @return array
+     */
     public  function getChineseAnalysis($str=''){
         if($str==''){
             return [];
@@ -27,38 +31,31 @@ class AnalyzeManage
         $pa->differMax = false;
         $pa->unitWord = false;
         $pa->StartAnalysis(true);
-        $result=$pa->GetFinallyIndex();
-//        var_dump($result);exit();
-        return $result;
+
+        $getInfo=true;
+        $sign='-';
+        $result=$pa->GetFinallyResult($sign,$getInfo);
+        $result=explode($sign,$result);
+        $filterResult=[];
+
+        // do not use GetFinallIndex I don`t need unknow info
+//        $resultArray=$pa->GetFinallyIndex();
+
+        // simple filter just allow noun
+        foreach($result as $k=>$value){
+            if (preg_match('/\/n/i', $value) === 1) {
+                $arrValue=explode('/',$value);
+                $filterResult[$arrValue[0]]=(int)preg_replace('/(n[a-z|A-Z]*)/','',$arrValue[1]);
+            }
+        }
+
+        return $filterResult;
     }
 
 
-//    /**
-//     * 得到分词后的数据
-//     * @return array
-//     */
-//    public function getAnalyze($sentence = null)
-//    {
-//        $elasticsearchConfig=$this->getElasticsearchConfig();
-//        $result = $this->setHost($elasticsearchConfig['url'])
-//            ->setAction("_analyze")
-////            ->addParam("field", "same.search")//include title and subtitle
-//            ->addParam("text", urlencode($sentence))
-////            ->setIndex("same")
-//            ->get();
-//        $words = [];
-//        if(!isset($result->error)) {
-//            if (count($result->tokens) > 0) {
-//                foreach ($result->tokens as $value) {
-//                    $words[] = $value->token;
-//                }
-//            }
-//        }
-//        return $words;
-//    }
-
-
-
+    /**
+     * @param array $arr
+     */
     public function setDictArr($arr=[]){
         $this->arr=$arr;
     }
@@ -75,6 +72,7 @@ class AnalyzeManage
         $dicts = [];
         foreach ($arrlist as $key => $value) {
             $words = $this->getChineseAnalysis($value);
+
             foreach ($words as $k_name=> $num) {
                 $k_name=Pinyin::make_semiangle($k_name);
                 $k_name=preg_replace("/([[:alnum:]]|[[:space:]]|[[:punct:]])+/U", '', $k_name);
