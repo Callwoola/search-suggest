@@ -84,6 +84,9 @@ class ChineseAnalysis
     //词库载入时间
     public $loadTime = 0;
 
+    // 附加分词数据 以数组传参数
+    public $additionDict = [];
+
     /**
      * 构造函数
      * @param $source_charset
@@ -204,6 +207,24 @@ class ChineseAnalysis
         $this->resultType = $rstype;
     }
 
+
+    /**
+     * @return String like -> '专用机,6,n...'
+     */
+    public function getAdditionDict(){
+        $returnString="";
+        foreach($this->additionDict as $value){
+            $returnString.="\n{$value},100,nx";
+        }
+        return $returnString;
+    }
+
+    /**
+     * @param array $arr
+     */
+    public function setAdditionDict($arr=[]){
+        $this->additionDict=$arr;
+    }
     /**
      * 载入词典
      *
@@ -223,6 +244,11 @@ class ChineseAnalysis
 
         //加载主词典（只打开）
         $this->mainDicHand = fopen($dicWords, 'r');
+
+        //加载附加的 分词
+        if (!empty($this->additionDict)) {
+            $this->mainDicHand = $this->mainDicHand . $this->getAdditionDict();
+        }
 
         //载入副词典
         $hw = '';
@@ -978,25 +1004,49 @@ class ChineseAnalysis
             $this->mainDicHand = fopen($this->mainDicFile, 'r');
         }
         $fp = fopen($targetfile, 'w');
+//        for ($i = 0; $i <= $this->mask_value; $i++) {
+//            $move_pos = $i * 8;
+//            fseek($this->mainDicHand, $move_pos, SEEK_SET);
+//            $dat = fread($this->mainDicHand, 8);
+//            $arr = unpack('I1s/n1l/n1c', $dat);
+//            if ($arr['l'] == 0) {
+//                continue;
+//            }
+//            fseek($this->mainDicHand, $arr['s'], SEEK_SET);
+//            $data = @unserialize(fread($this->mainDicHand, $arr['l']));
+//            if (!is_array($data)) continue;
+//            foreach ($data as $k => $v) {
+//                $w = iconv(UCS2, 'utf-8', $k);
+//                fwrite($fp, "{$w},{$v[0]},{$v[1]}\n");
+//            }
+//        }
+        fwrite($fp,$this->ExportDictCore($this->mainDicHand));
+        fclose($fp);
+        return true;
+    }
+
+    public function ExportDictCore($source_str){
+        $str='';
         for ($i = 0; $i <= $this->mask_value; $i++) {
             $move_pos = $i * 8;
-            fseek($this->mainDicHand, $move_pos, SEEK_SET);
-            $dat = fread($this->mainDicHand, 8);
+            fseek($source_str, $move_pos, SEEK_SET);
+            $dat = fread($source_str, 8);
             $arr = unpack('I1s/n1l/n1c', $dat);
             if ($arr['l'] == 0) {
                 continue;
             }
-            fseek($this->mainDicHand, $arr['s'], SEEK_SET);
-            $data = @unserialize(fread($this->mainDicHand, $arr['l']));
+            fseek($source_str, $arr['s'], SEEK_SET);
+            $data = @unserialize(fread($source_str, $arr['l']));
             if (!is_array($data)) continue;
             foreach ($data as $k => $v) {
                 $w = iconv(UCS2, 'utf-8', $k);
-                fwrite($fp, "{$w},{$v[0]},{$v[1]}\n");
+//                fwrite($fp, "{$w},{$v[0]},{$v[1]}\n");
+                $str.="{$w},{$v[0]},{$v[1]}\n";
             }
         }
-        fclose($fp);
-        return true;
+        return $str;
     }
+
 }
 
 ?> 
