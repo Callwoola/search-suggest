@@ -3,10 +3,10 @@
 namespace Callwoola\SearchSuggest\lib;
 
 
-use Callwoola\SearchSuggest\lib\Translate\Pinyin;
-use Callwoola\SearchSuggest\Config\Configuration;
-
 use Callwoola\SearchSuggest\analysis\ChineseAnalysis;
+use Callwoola\SearchSuggest\Config\Configuration;
+use Callwoola\SearchSuggest\lib\Translate\Pinyin;
+
 /**
  * 通过ik 词库 进行分词，同时检查Callwoola.dat 是否有特定的分词条件
  *
@@ -14,10 +14,16 @@ use Callwoola\SearchSuggest\analysis\ChineseAnalysis;
 class AnalyzeManage
 {
     use Configuration;
-    public $arr=[];
+    public $arr = [];
+    private $selfDict = [];
 
-    public  function getChineseAnalysis($str=''){
-        if($str==''){
+    /**
+     * @param string $str
+     * @return array
+     */
+    public function getChineseAnalysis($str = '')
+    {
+        if ($str == '') {
             return [];
         }
         ChineseAnalysis::$loadInit = false;
@@ -27,64 +33,78 @@ class AnalyzeManage
         $pa->differMax = false;
         $pa->unitWord = false;
         $pa->StartAnalysis(true);
-        $result=$pa->GetFinallyIndex();
-//        var_dump($result);exit();
-        return $result;
+
+        $getInfo = true;
+        $sign = '-';
+        $result = $pa->GetFinallyResult($sign, $getInfo);
+        $result = explode($sign, $result);
+        $filterResult = [];
+
+        // do not use GetFinallIndex I don`t need unknow info
+//        $resultArray=$pa->GetFinallyIndex();
+
+        // simple filter just allow noun
+        foreach ($result as $k => $value) {
+            if (preg_match('/\/n/i', $value) === 1) {
+                $arrValue = explode('/', $value);
+                $filterResult[$arrValue[0]] = (int)preg_replace('/(n[a-z|A-Z]*)/', '', $arrValue[1]);
+            }
+        }
+
+        return $filterResult;
     }
 
 
-//    /**
-//     * 得到分词后的数据
-//     * @return array
-//     */
-//    public function getAnalyze($sentence = null)
-//    {
-//        $elasticsearchConfig=$this->getElasticsearchConfig();
-//        $result = $this->setHost($elasticsearchConfig['url'])
-//            ->setAction("_analyze")
-////            ->addParam("field", "same.search")//include title and subtitle
-//            ->addParam("text", urlencode($sentence))
-////            ->setIndex("same")
-//            ->get();
-//        $words = [];
-//        if(!isset($result->error)) {
-//            if (count($result->tokens) > 0) {
-//                foreach ($result->tokens as $value) {
-//                    $words[] = $value->token;
-//                }
-//            }
-//        }
-//        return $words;
-//    }
-
-
-
-    public function setDictArr($arr=[]){
-        $this->arr=$arr;
+    /**
+     * @param array $arr
+     */
+    public function setDictArr($arr = [])
+    {
+        $this->arr = $arr;
     }
+
     /**
      * 得到所有数据分词后的数组
      * @return array
      */
     public function getAnalyzeDict()
     {
-        if(!count($this->arr)>0){
+        if (!count($this->arr) > 0) {
             return false;
         }
-        $arrlist=$this->arr;
+        $arrlist = $this->arr;
         $dicts = [];
         foreach ($arrlist as $key => $value) {
             $words = $this->getChineseAnalysis($value);
-            foreach ($words as $k_name=> $num) {
-                $k_name=Pinyin::make_semiangle($k_name);
-                $k_name=preg_replace("/([[:alnum:]]|[[:space:]]|[[:punct:]])+/U", '', $k_name);
+
+            //过滤 字符
+            foreach ($words as $k_name => $num) {
+                $k_name = Pinyin::make_semiangle($k_name);
+                $k_name = preg_replace("/([[:alnum:]]|[[:space:]]|[[:punct:]])+/U", '', $k_name);
                 $match = '/^[a-z|A-Z|0-9]/';
                 if (!preg_match($match, $k_name) and !empty($k_name)) {
                     $dicts[] = $k_name;
                 }
             }
         }
+
+        // example => ['str1','str1','str1','str1']
+        $dicts = array_merge($dicts,$this->selfDict);
+
         return array_unique($dicts);
+    }
+
+    /**
+     * 添加自己的 个人
+     * @param array $array
+     */
+    public function addSelfDict($array = [])
+    {
+        if (empty($array)) {
+            return false;
+        }
+
+        $this->selfDict = $array;
     }
 
     /**
@@ -152,12 +172,12 @@ class AnalyzeManage
             //每个字的全拼
             foreach ($dict as $words) {
                 $stringArray = $pinyin->stringToArray($words);
-                $linkpinyin='';
+                $linkpinyin = '';
                 foreach ($stringArray as $k => $word) {
                     $tranPinyin = $pinyin->getPinyin($word);
-                    $linkpinyin=$linkpinyin.$tranPinyin;
+                    $linkpinyin = $linkpinyin . $tranPinyin;
                     $cacheArray[$linkpinyin][] = $words;
-                    if($k>0){
+                    if ($k > 0) {
                         $cacheArray[$linkpinyin][] = $words;
                     }
                 }
@@ -192,12 +212,12 @@ class AnalyzeManage
             //each word
             foreach ($dict as $words) {
                 $stringArray = $pinyin->stringToArray($words);
-                $linkpinyin='';
+                $linkpinyin = '';
                 foreach ($stringArray as $k => $word) {
                     $tranPinyin = $pinyin->getPinyin($word);
-                    $linkpinyin=$linkpinyin.$tranPinyin;
+                    $linkpinyin = $linkpinyin . $tranPinyin;
                     $cacheArray[$linkpinyin][] = $words;
-                    if($k>0){
+                    if ($k > 0) {
                         $cacheArray[$linkpinyin][] = $words;
                     }
                 }
@@ -287,15 +307,15 @@ class AnalyzeManage
      */
     public function getCacheChinese()
     {
-        $dictList=$this->getAnalyzeDict();
+        $dictList = $this->getAnalyzeDict();
         // get all chinese string
         // for what ?
         // 现在 是直接通过 keys 储存 也就是说 keys
-        $filterList=[];
+        $filterList = [];
         foreach ($dictList as $v) {
-            if(!preg_match("/[a-z|A-Z|0-9|\\s]+/i",$v)){
-                if(count(Pinyin::init()->stringToArray($v))>=2){
-                    $filterList[]=$v;
+            if (!preg_match("/[a-z|A-Z|0-9|\\s]+/i", $v)) {
+                if (count(Pinyin::init()->stringToArray($v)) >= 2) {
+                    $filterList[] = $v;
                 }
             }
         }

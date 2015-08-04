@@ -177,7 +177,7 @@ class Pinyin
     }
 
     /**
-     *
+     * 装换 大小写
      * @return Array
      */
     public static function make_semiangle($str)

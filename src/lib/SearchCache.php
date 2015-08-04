@@ -2,20 +2,20 @@
 
 namespace Callwoola\SearchSuggest\lib;
 
-use Predis\Client;
 use Callwoola\SearchSuggest\Config\Configuration;
 use Callwoola\SearchSuggest\lib\Translate\Pinyin;
+use Predis\Client;
 
 class SearchCache
 {
     use Configuration;
 
     protected static $config = [
-        'key' => 'Callwoolasearch-',
-        'index' => 'woola',//default
-        'index_num' => 'woola',
+        'key'           => 'Callwoolasearch-',
+        'index'         => 'woola',//default
+        'index_num'     => 'woola',
         'index_chinese' => 'woola_chinese',
-        'returnLimit' => 10,
+        'returnLimit'   => 10,
     ];
     protected static $client;
     protected static $instance;
@@ -69,7 +69,8 @@ class SearchCache
      * 清空数据库
      * @return void
      */
-    public function ClearDatabase(){
+    public function ClearDatabase()
+    {
         self::$client->flushdb();
     }
 
@@ -79,13 +80,26 @@ class SearchCache
      */
     public function setChineseIndex($value, $indexName = null)
     {
-        foreach ($value as $k=> $words) {
+        foreach ($value as $k => $words) {
             self::$client->sadd(
                 self::keyLocalSet($words),
                 $words
             );
             //self::$client->set(self::keyLocalSet($words, self::$config['index_chinese']), $words);
         }
+    }
+
+
+    /**
+     * 搜索根据数字返回 搜索结果
+     * @param string $keyword
+     */
+    public function searchAll($keyword = '')
+    {
+        if($keyword==='')return false;
+
+        // use Pinyin
+        return $this->searchPinyin($keyword);
     }
 
     /**
@@ -96,7 +110,7 @@ class SearchCache
     {
         //find keys
         //get key list
-        $keyword = $this->keyLocalSet(strtolower($keyword)."*");
+        $keyword = $this->keyLocalSet(strtolower($keyword) . "*");
         $keyList = self::$client->keys($keyword);
         $returnList = [];
         foreach ($keyList as $keyString) {
@@ -128,11 +142,11 @@ class SearchCache
      */
     public function searchChinese($keyword, $isEachWord = 0, $indexName = null)
     {
-        $keyword = $this->keyLocalSet('*'.$keyword.'*',self::$config['index_chinese']);
+        $keyword = $this->keyLocalSet('*' . $keyword . '*', self::$config['index_chinese']);
         $keyList = self::$client->keys($keyword);
         $searchList = [];
         foreach ($keyList as $keyString) {
-            $searchList[]=self::$client->get($keyString);
+            $searchList[] = self::$client->get($keyString);
         }
         $searchList = array_slice(array_unique($searchList), 0, self::$config['returnLimit']);
         $returnList = [];
@@ -161,8 +175,8 @@ class SearchCache
             $body['query']['match'] = ['title' => $key];
             $params = [
                 'index' => 'woola',
-                'type' => 'woola',
-                'body' => $body
+                'type'  => 'woola',
+                'body'  => $body
             ];
             $response = $client->search($params);
             self::init()->getClient()->set($key, count($response['hits']['hits']));
@@ -172,11 +186,21 @@ class SearchCache
     }
 
 
+    /**
+     * @param $keyword
+     * @param null $indexName
+     * @return string
+     */
     private static function keyLocalSet($keyword, $indexName = null)
     {
         return self::$config['key'] . ($indexName === null ? self::$config['index'] : $indexName) . ':' . $keyword;
     }
 
+    /**
+     * @param $keyword
+     * @param null $indexName
+     * @return mixed
+     */
     private static function keyLocalGet($keyword, $indexName = null)
     {
         return str_replace(self::$config['key'] . ($indexName === null ? self::$config['index'] : $indexName) . ':', '', $keyword);

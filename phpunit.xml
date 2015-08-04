@@ -14,7 +14,7 @@
         >
     <testsuites>
         <testsuite name="Search">
-            <directory>./tests/IndexTest.php</directory>
+            <directory>./tests</directory>
         </testsuite>
     </testsuites>
     <php>
