@@ -20,6 +20,7 @@ class IndexTest extends PHPUnit_Framework_TestCase
             'status=200',
             'es的版本信',
         ]);
+
         SearchCache::init()->ClearDatabase();
         $words = $AnalyzeManage->getCacheInitials();
         var_dump($words);exit();

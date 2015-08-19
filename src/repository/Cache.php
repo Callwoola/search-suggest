@@ -7,11 +7,16 @@ use Callwoola\SearchSuggest\lib\Translate\Pinyin;
 use Predis\Client;
 
 
-abstract cache{
+abstract class Cache{
+
 	public function find($key){
-		
-	}
-	public function set($key,$array=[]);
+
+    }
+
+	public function store($key,$array=[])
+    {
+        $store  = storeRoom::instance();
+    }
 
 }
 
