@@ -8,8 +8,6 @@ use Predis\Client;
 
 
 class PinyinCache extends Cache{
-	public function find($key)
-	public function set($key,$array=[]);
 
 }
 
