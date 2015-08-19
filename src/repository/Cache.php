@@ -5,12 +5,14 @@ namespace Callwoola\SearchSuggest\repository;
 use Callwoola\SearchSuggest\Config\Configuration;
 use Callwoola\SearchSuggest\lib\Translate\Pinyin;
 use Predis\Client;
+use storeRoom;
 
 
 abstract class Cache{
 
 	public function find($key){
-
+        return
+            storeRoom::instance()->find($key);
     }
 
 	public function store($key,$array=[])
