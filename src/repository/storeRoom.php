@@ -24,7 +24,11 @@ class storeRoom{
     }
 
 
-    public function find(){
+    public function hit(){
 
+    }
+
+    public function clear($key){
+        
     }
 }
