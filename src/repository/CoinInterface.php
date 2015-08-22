@@ -1,6 +1,6 @@
 <?php
 
-interface Currency{
+interface CoinInterface{
 
 
     public function setName();

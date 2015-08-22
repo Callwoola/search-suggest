@@ -10,10 +10,13 @@ abstract class Bank{
             storeRoom::instance()->find($key);
     }
 
-	public function store($key,$array=[])
+	public function storeCoin($key,$array=[])
     {
         $store  = storeRoom::instance();
     }
 
+    public function getCoin($name ){
+
+    }
 }
 
