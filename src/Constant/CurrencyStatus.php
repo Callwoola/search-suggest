@@ -1,11 +1,18 @@
 <?php
+
+namespace Callwoola\SearchSuggest\Constant;
+
+
 /**
- * Created by PhpStorm.
- * User: Administrator
+ * the currencyStatus
+ * Auther: Neo
  * Date: 2015/8/22
  * Time: 22:07
  */
+class CurrencyStatus
+{
+    const PINYIN = 'pinyin';
 
-class CurrencyStatus {
-
+    const ENGLISH = 'english';
+    const CHINESEWORD = 'chineseword';
 }
