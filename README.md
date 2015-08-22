@@ -1,5 +1,6 @@
 Search suggest / elasticsearch
 ================
+[![Packagist](https://img.shields.io/packagist/dt/callwoola/searchsuggest.svg)](https://packagist.org/packages/callwoola/searchsuggest)
 
 ### 功能说明
 * 把句子分词后缓存转换成拼音缓存
