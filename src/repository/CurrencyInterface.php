@@ -7,6 +7,4 @@ interface Currency{
 
     public function setCoin();
 
-
-
 }
