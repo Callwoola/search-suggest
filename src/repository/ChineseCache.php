@@ -7,7 +7,9 @@ use Callwoola\SearchSuggest\lib\Translate\Pinyin;
 use Predis\Client;
 
 
-class PinyinCache extends Cache{
+class PinyinCache extends Cache imp{
+	public function find($key)
+	public function set($key,$array=[]);
 
 }
 
