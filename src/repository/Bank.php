@@ -26,7 +26,7 @@ class Bank
 
     public function getCoin($name = '')
     {
-        return 'Coin';
+        return '\\String Coin\\';
     }
 }
 
