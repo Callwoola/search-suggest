@@ -1,5 +1,7 @@
 <?php
 
+namespace Callwoola\SearchSuggest\repository;
+
 interface CoinInterface{
 
 

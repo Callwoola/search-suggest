@@ -1,10 +1,11 @@
 <?php
 
-interface Currency{
+
+namespace Callwoola\SearchSuggest\repository;
 
 
-    public function setName();
+interface CurrencyInterface{
 
-    public function setCoin();
 
+    public function getTest();
 }
