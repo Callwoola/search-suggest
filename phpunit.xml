@@ -18,17 +18,6 @@
         </testsuite>
     </testsuites>
     <php>
-
-        <env name="SEARCH_ELASTICSEARCH_URL" value="http://127.0.0.1:9200"/>
-        <env name="SEARCH_LOG" value=""/>
-
-        <env name="MYSQL_HOST" value="localhost"/>
-        <env name="MYSQL_USERNAME" value="homestead"/>
-        <env name="MYSQL_PASSWORD" value="secret"/>
-        <env name="MYSQL_DATABASE" value=""/>
-
-        <env name="SEARCH_HIGH_LIGHT_ELEMENT_PREFIX" value=""/>
-
         <env name="REDIS_CLUSTER" value="false"/>
         <env name="REDIS_DEFAULT_HOST" value="127.0.0.1"/>
         <env name="REDIS_DEFAULT_PORT" value="6379"/>

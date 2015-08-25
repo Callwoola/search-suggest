@@ -29,6 +29,6 @@ class storeRoom{
     }
 
     public function clear($key){
-        
+
     }
 }
