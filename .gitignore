@@ -295,3 +295,4 @@ tests/tmp/*
 
 /*.sh
 /*.bat
+/composer.lock
