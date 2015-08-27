@@ -36,8 +36,11 @@ class Container
         return call_user_func_array($this->binds[$abstract], $parameters);
     }
 
-    public function bank()
+    public function bank($func)
     {
-        return new Bank(new PinyinCurrency);
+
+
+        echo call_user_func_array($func,[]);
+//        return new Bank(new PinyinCurrency);
     }
 }

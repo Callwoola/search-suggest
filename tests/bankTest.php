@@ -16,7 +16,9 @@ class BankTest extends PHPUnit_Framework_TestCase
     {
         $container = new Container;
 
-        $container->bank();
+        $container->bank(function(){
+            return (new Bank(new PinyinCurrency))->getCoin();
+        });
     }
 
 
