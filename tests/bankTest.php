@@ -28,7 +28,7 @@ class BankTest extends PHPUnit_Framework_TestCase
 
         // 更多的插件
 
-        
+
     }
 
 
