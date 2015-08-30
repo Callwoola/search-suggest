@@ -12,11 +12,10 @@ class Bank
 
 
     public function  __construct(
-        CurrencyInterface $currency,
         StoreInterface $store
     )
     {
-        $this->currency = $currency;
+//        $this->currency = $currency;
         $this->store = $store;
     }
 
@@ -34,6 +33,10 @@ class Bank
     public function getCoin($name = '')
     {
         return '\\String Coin\\';
+    }
+
+    public function getStoreName(){
+        return $this->store->getName();
     }
 }
 
