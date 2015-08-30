@@ -13,9 +13,13 @@
          verbose="true"
         >
     <testsuites>
-        <testsuite name="Search">
+        <testsuite name="Bank">
             <directory>./tests/BankTest.php</directory>
         </testsuite>
+
+        <!--<testsuite name="Index">-->
+            <!--<directory>./tests/IndexTest.php</directory>-->
+        <!--</testsuite>-->
     </testsuites>
     <php>
         <env name="REDIS_CLUSTER" value="false"/>

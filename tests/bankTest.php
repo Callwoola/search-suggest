@@ -39,11 +39,15 @@ class BankTest extends PHPUnit_Framework_TestCase
     }
 
 
+    /**
+     * @cover baseStore::store
+     *
+     */
     function testFile()
     {
-
         foreach($this->getFile() as $test){
-
+            $Bank = new Bank($test);
+            echo $Bank->getName();
         }
     }
 }
