@@ -3,7 +3,7 @@
 namespace Callwoola\SearchSuggest\StoreAdapter;
 
 
-class baseStore implements StoreInterface
+class BaseStore implements StoreInterface
 {
 
     private $path = '';
