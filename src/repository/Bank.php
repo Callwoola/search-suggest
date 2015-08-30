@@ -3,14 +3,21 @@
 namespace Callwoola\SearchSuggest\repository;
 
 
+use Callwoola\SearchSuggest\StoreAdapter\StoreInterface;
+use Callwoola\SearchSuggest\repository\C;
+
 class Bank
 {
     private $currency;
 
 
-    public function  __construct(CurrencyInterface $currency)
+    public function  __construct(
+        CurrencyInterface $currency,
+        StoreInterface $store
+    )
     {
         $this->currency = $currency;
+        $this->store = $store;
     }
 
     public function find($key)

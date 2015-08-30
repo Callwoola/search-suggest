@@ -5,8 +5,8 @@ use Callwoola\SearchSuggest\lib\SearchCache;
 use Callwoola\SearchSuggest\Container;
 use Callwoola\SearchSuggest\repository\PinyinCurrency;
 use Callwoola\SearchSuggest\repository\Bank;
-
-
+use Callwoola\SearchSuggest\StoreAdapter\StoreInterface;
+use Callwoola\SearchSuggest\StoreAdapter\baseStore;
 
 
 class BankTest extends PHPUnit_Framework_TestCase
@@ -16,9 +16,9 @@ class BankTest extends PHPUnit_Framework_TestCase
     {
         $container = new Container;
 
-        $container->bank(function(){
+        $container->bank(function () {
             return (new Bank(new PinyinCurrency))->getCoin();
-         });
+        });
 
         // 测试拼音 的 储存
 
@@ -31,11 +31,20 @@ class BankTest extends PHPUnit_Framework_TestCase
 
     }
 
+    function getFile()
+    {
+        return [
+            [new baseStore]
+        ];
+    }
 
 
+    function testFile()
+    {
 
-    function testFile(){
-        echo "123";
+        foreach($this->getFile() as $test){
+
+        }
     }
 }
 

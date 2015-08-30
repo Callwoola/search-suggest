@@ -13,8 +13,8 @@ class baseStore implements StoreInterface
     private $value = [];
 
 
-    private function __construct(){
-        $this->path = __DIR__ . '/../../temp';
+    public function __construct(){
+//        $this->path = __DIR__ . '/../../temp';
     }
 
     public function store()
