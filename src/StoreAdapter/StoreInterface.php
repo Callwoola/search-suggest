@@ -8,7 +8,7 @@ namespace Callwoola\SearchSuggest\StoreAdapter;
  */
 interface StoreInterface
 {
-    
+
 
     /**
      * @return mixed
