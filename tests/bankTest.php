@@ -50,6 +50,10 @@ class BankTest extends PHPUnit_Framework_TestCase
             echo $Bank->getName();
         }
     }
+
+    function testCoin(){
+        // ...
+    }
 }
 
 
