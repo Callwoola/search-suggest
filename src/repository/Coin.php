@@ -2,11 +2,21 @@
 
 namespace Callwoola\SearchSuggest\repository;
 
-interface CoinInterface{
+/**
+ * Class Coin
+ * @package Callwoola\SearchSuggest\repository
+ */
+class Coin implements CoinInterface{
 
 
-    public function setName();
+    /**
+     *
+     */
+    public function setName(){}
 
-    public function setCoin();
+    /**
+     *
+     */
+    public function setCoin(){}
 
 }

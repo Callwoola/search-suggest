@@ -2,11 +2,25 @@
 
 namespace Callwoola\SearchSuggest\repository;
 
-class Coin implements CoinInterface{
+/**
+ * Interface CoinInterface
+ * @package Callwoola\SearchSuggest\repository
+ */
+interface CoinInterface{
 
 
-    public function setName(){}
+    /**
+     * 设置 coin的 key
+     *
+     * @return mixed
+     */
+    public function setName();
 
-    public function setCoin(){}
+    /**
+     * 设置子数据
+     *
+     * @return mixed
+     */
+    public function setCoin();
 
 }
