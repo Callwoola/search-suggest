@@ -14,14 +14,14 @@
     ],
     "require": {
         "php": ">=5.4.0",
-        "predis/predis": "0.8.*"
-
+        "predis/predis": "0.8.*",
+        "Callwoola/php-split": "1.0.0",
+        "illuminate/console": "~4"
     },
     "require-dev": {
         "phpunit/phpunit": "4.6.*",
         "mockery/mockery": "~0.9",
-        "monolog/monolog": "~1.0",
-        "illuminate/console": "~4"
+        "monolog/monolog": "~1.0"
     },
     "autoload": {
         "psr-4": {
@@ -34,5 +34,9 @@
             "dev-master": "0.1.x-dev"
         }
     },
-    "minimum-stability": "dev"
+    "minimum-stability": "dev",
+    "repositories": [
+        {"type": "composer", "url": "http://packagist.phpcomposer.com"},
+        {"packagist": false}
+    ]
 }
