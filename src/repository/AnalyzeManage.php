@@ -1,10 +1,9 @@
 <?php
 
-namespace Callwoola\Search\lib\Indexdata;
+namespace Callwoola\SearchSuggest\repository;
 
 
-use Callwoola\Search\lib\Translate\Pinyin;
-use Callwoola\Search\Config\Configuration;
+
 /**
  * 通过 php-split 词库 进行分词，同时检查Callwoola.dat 是否有特定的分词条件
  *

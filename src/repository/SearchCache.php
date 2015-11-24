@@ -1,15 +1,35 @@
 <?php
 
-namespace Callwoola\Search\lib;
+namespace Callwoola\SearchSuggest\repository;
 
-use Predis\Client;
-use Elasticsearch\ClientBuilder;
-use Callwoola\Search\Config\Configuration;
-use Callwoola\Search\lib\Translate\Pinyin;
-// TODO optimize
-class SearchCache
+
+
+class CacheManage
 {
-    use Configuration;
+
+
+    public function fire()
+    {
+        // TODO optimize code
+
+        $start = microtime(true);
+        $this->info('Update Callwoola-search Cache...');
+        $indexManage = new IndexManage();
+        $indexManage->byElasticsearch();
+        $this->info("Create Elasticsearch Index successful!");
+        $AnalyzeManage = new AnalyzeManage();
+        $cacheInitials = $AnalyzeManage->getCacheInitials();
+        $cachePinyin = $AnalyzeManage->getCachePinyin(1);
+        $cacheFuzzySoundPinyin = $AnalyzeManage->getCacheFuzzySoundPinyin(1);
+        $testdata = $AnalyzeManage->mergeData($cacheInitials, $cachePinyin, $cacheFuzzySoundPinyin);
+        SearchCache::init()->setPinyinIndex($testdata);
+        $this->info("Create Pinyin Cache Index successful!");
+        $chineseList = $AnalyzeManage->getCacheChinese();
+        SearchCache::init()->setChineseIndex($chineseList);
+        $timeElapsed = microtime(true) - $start;
+        $this->info("Create Chinese Cache Index successful!");
+        $this->info(" Total time: $timeElapsed second");
+    }
 
     protected static $config = [
         'key' => 'Callwoolasearch-',
