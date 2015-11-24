@@ -8,29 +8,38 @@ namespace Callwoola\SearchSuggest\StoreAdapter;
  */
 interface StoreInterface
 {
+    /**
+     * @param string $key
+     * @param string $value
+     * @return mixed
+     */
+    public function store($key,$value);
 
 
     /**
+     * @param string $name
      * @return mixed
      */
-    public function store();
+    public function find($name);
 
     /**
+     * @param string $name
      * @return mixed
      */
-    public function find();
+    public function get($name);
+
+    /**
+     * @param string $name
+     * @return mixed
+     */
+    public function key($name);
 
 
     /**
+     * @param string $value
      * @return mixed
      */
-    public function key();
-
-
-    /**
-     * @return mixed
-     */
-    public function value();
+    public function value($value);
 
 
 }

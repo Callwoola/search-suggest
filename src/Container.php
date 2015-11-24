@@ -1,15 +1,10 @@
 <?php
 
-namespace Callwoola\Searchsuggest;
+namespace Callwoola\SearchSuggest;
 
 use Callwoola\SearchSuggest\repository\Bank;
 use Callwoola\SearchSuggest\repository\PinyinCurrency;
 
-/**
- * User: Neo
- * Date: 2015/8/23
- * Time: 10:38
- */
 class Container
 {
     protected $binds;
@@ -38,7 +33,6 @@ class Container
 
     public function bank($func)
     {
-
 
         echo call_user_func_array($func,[]);
 //        return new Bank(new PinyinCurrency);

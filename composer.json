@@ -1,42 +1,45 @@
 {
-    "name": "Callwoola/SearchSuggest",
-    "description": "Search suggest , search auto complete",
-    "keywords": [
-        "suggest",
-        "search"
-    ],
-    "license": "proprietary",
-    "authors": [
-        {
-            "name": "Neo",
-            "email": "call@woola.net"
-        }
-    ],
-    "require": {
-        "php": ">=5.4.0",
-        "predis/predis": "0.8.*",
-        "Callwoola/php-split": "1.0.0",
-        "illuminate/console": "~4"
+  "name": "Callwoola/SearchSuggest",
+  "description": "Search suggest , search auto complete",
+  "keywords": [
+    "suggest",
+    "search"
+  ],
+  "license": "proprietary",
+  "authors": [
+    {
+      "name": "Neo",
+      "email": "call@woola.net"
+    }
+  ],
+  "require": {
+    "php": ">=5.4.0",
+    "predis/predis": "0.8.*",
+    "Callwoola/php-split": "1.0.0",
+    "illuminate/console": "~4",
+    "overtrue/pinyin": "2.*"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "~4.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "Callwoola\\SearchSuggest\\": "src/",
+      "SuggestTest\\": "tests/"
+    }
+  },
+  "extra": {
+    "component": "extension",
+    "branch-alias": {
+      "dev-master": "0.1.x-dev"
+    }
+  },
+  "minimum-stability": "dev",
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "http://packagist.phpcomposer.com"
     },
-    "require-dev": {
-        "phpunit/phpunit": "4.6.*",
-        "mockery/mockery": "~0.9",
-        "monolog/monolog": "~1.0"
-    },
-    "autoload": {
-        "psr-4": {
-            "Callwoola\\SearchSuggest\\": "src/"
-        }
-    },
-    "extra": {
-        "component": "extension",
-        "branch-alias": {
-            "dev-master": "0.1.x-dev"
-        }
-    },
-    "minimum-stability": "dev",
-    "repositories": [
-        {"type": "composer", "url": "http://packagist.phpcomposer.com"},
-        {"packagist": false}
-    ]
+    {"packagist": false}
+  ]
 }

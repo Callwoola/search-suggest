@@ -2,30 +2,42 @@
 
 namespace Callwoola\SearchSuggest\StoreAdapter;
 
+use Predis\Client;
 
 class RedisStore implements StoreInterface
 {
-
-    private $path = '';
-
-    private $name = '';
+    private $name = 'php-suggest-redis-prefix';
 
     private $value = [];
 
+    private $client;
 
-    public function __construct(){
-//        $this->path = __DIR__ . '/../../temp';
+    public function __construct()
+    {
+        $config = ['scheme' => 'tcp', 'host' => '10.0.0.1', 'port' => 6379,];
+
+        $this->client = new Client($config);
     }
 
-    public function store()
+    public function store($key = null, $value = null)
     {
-        file_put_contents($this->name,serialize($this->value));
+        if ($this->client instanceof Client) {
+            $key   = $key == null ? $this->name : $key;
+            $value = $value == null ? $this->value : $value;
+            $this->client->set($this->name . '-' . $key, $value);
+        } else {
+            throw new CanNotStoreException();
+        }
+
     }
 
+    public function get($name){
 
-    public function  find()
+    }
+
+    public function find($name)
     {
-        return null;
+        $this->get($this->name . "*");
     }
 
     public function key($name = '')

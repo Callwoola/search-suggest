@@ -15,14 +15,12 @@ class Bank
         StoreInterface $store
     )
     {
-//        $this->currency = $currency;
         $this->store = $store;
     }
 
     public function find($key)
     {
-        return
-            storeRoom::instance()->find($key);
+        return storeRoom::instance()->find($key);
     }
 
     public function storeCoin($key = '', $array = [])
