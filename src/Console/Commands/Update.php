@@ -37,6 +37,8 @@ class Update extends Command
         parent::__construct();
     }
 
+
+
     /**
      * Execute the console command.
      *
@@ -44,6 +46,8 @@ class Update extends Command
      */
     public function fire()
     {
+        // TODO optimize code
+
         $start = microtime(true);
         $this->info('Update Callwoola-search Cache...');
         $indexManage = new IndexManage();

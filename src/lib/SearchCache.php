@@ -6,7 +6,7 @@ use Predis\Client;
 use Elasticsearch\ClientBuilder;
 use Callwoola\Search\Config\Configuration;
 use Callwoola\Search\lib\Translate\Pinyin;
-
+// TODO optimize
 class SearchCache
 {
     use Configuration;

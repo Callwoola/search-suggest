@@ -3,11 +3,7 @@
 
 namespace Callwoola\Search\lib\Translate;
 
-
-    /**
-     *  考虑到咱们是垂直电商 涉及到的词库 不是太多，所以就用了一个小拼音词库 （常用字 不包括多音字）
-     *  同时保留一个 本地化 拼音词库
-     */
+// TODO optimize
 /**
  * Class Pinyin
  * @package Callwoola\Search\lib\Translate

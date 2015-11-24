@@ -6,7 +6,7 @@ namespace Callwoola\Search\lib\Indexdata;
 use Callwoola\Search\lib\Translate\Pinyin;
 use Callwoola\Search\Config\Configuration;
 /**
- * 通过ik 词库 进行分词，同时检查Callwoola.dat 是否有特定的分词条件
+ * 通过 php-split 词库 进行分词，同时检查Callwoola.dat 是否有特定的分词条件
  *
  */
 class AnalyzeManage extends ElasticsearchUrl
