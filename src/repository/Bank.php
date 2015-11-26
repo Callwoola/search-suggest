@@ -3,29 +3,33 @@
 namespace Callwoola\SearchSuggest\repository;
 
 
+use Callwoola\SearchSuggest\StoreAdapter\Store;
 use Callwoola\SearchSuggest\StoreAdapter\StoreInterface;
-use Callwoola\SearchSuggest\repository\C;
+
 
 class Bank
 {
     private $currency;
 
+    protected $store;
+
 
     public function  __construct(
-        StoreInterface $store
+//        StoreInterface $store
     )
     {
-        $this->store = $store;
+//        $this->store = $store;
+        $this->store = new Store();
     }
 
     public function find($key)
     {
-        return storeRoom::instance()->find($key);
+//        return storeRoom::instance()->find($key);
     }
 
     public function storeCoin($key = '', $array = [])
     {
-        $store = storeRoom::instance();
+//        $store = storeRoom::instance();
     }
 
     public function getCoin($name = '')
@@ -34,7 +38,14 @@ class Bank
     }
 
     public function getStoreName(){
-        return $this->store->getName();
+//        return $this->store->getName();
+    }
+
+    public function deposit(CoinInterface $coin)
+    {
+        echo "store ing.. \n";
+
+        $this->store->store($coin->getName(),$coin->getValue());
     }
 }
 

@@ -14,7 +14,7 @@ class RedisStore implements StoreInterface
 
     public function __construct()
     {
-        $config = ['scheme' => 'tcp', 'host' => '10.0.0.1', 'port' => 6379,];
+        $config = ['scheme' => 'tcp', 'host' => '127.0.0.1', 'port' => 6379,];
 
         $this->client = new Client($config);
     }

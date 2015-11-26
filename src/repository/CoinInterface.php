@@ -6,21 +6,22 @@ namespace Callwoola\SearchSuggest\repository;
  * Interface CoinInterface
  * @package Callwoola\SearchSuggest\repository
  */
-interface CoinInterface{
-
-
+interface CoinInterface
+{
     /**
      * 设置 coin的 key
      *
+     * @param string $name
      * @return mixed
      */
-    public function setName();
+    public function setName($name);
 
     /**
      * 设置子数据
      *
+     * @param max $value
      * @return mixed
      */
-    public function setCoin();
+    public function setValue($value);
 
 }

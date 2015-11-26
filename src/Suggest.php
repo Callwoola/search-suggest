@@ -13,10 +13,8 @@ class Suggest
         // TODO 设置私有词库
     }
 
-    public function index()
+    public function createIndex($dict = [])
     {
         // TODO 创建索引
-
-        
     }
 }

@@ -5,25 +5,23 @@ namespace Callwoola\SearchSuggest\StoreAdapter;
 
 class FileStore implements StoreInterface
 {
-
-    private $path = '';
-
     private $name = '';
 
     private $value = [];
 
 
-    public function __construct(){
-//        $this->path = __DIR__ . '/../../temp';
-    }
-
-    public function store()
+    public function __construct()
     {
-        file_put_contents($this->name,serialize($this->value));
+        //        $this->path = __DIR__ . '/../../temp';
+    }
+
+    public function store($name, $value)
+    {
+        file_put_contents($this->name, serialize($this->value));
     }
 
 
-    public function  find()
+    public function  find($name)
     {
         return null;
     }
@@ -36,6 +34,15 @@ class FileStore implements StoreInterface
     public function value($array = [])
     {
         $this->value = $array;
+    }
+
+
+    /**
+     * @param string $name
+     * @return mixed
+     */
+    public function get($name)
+    {
     }
 
 

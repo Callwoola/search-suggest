@@ -1,38 +1,49 @@
 <?php
 
 namespace Callwoola\SearchSuggest\repository;
-
+use Callwoola\SearchSuggest\Pinyin;
 
 
 /**
  * 通过 php-split 词库 进行分词，同时检查Callwoola.dat 是否有特定的分词条件
  *
  */
-class AnalyzeManage extends ElasticsearchUrl
+class Analyze //extends ElasticsearchUrl
 {
-    use Configuration;
-    /**
-     * 得到分词后的数据
-     * @return array
-     */
-    public function getAnalyze($sentence = null)
+//    use Configuration;
+//    /**
+//     * 得到分词后的数据
+//     * @return array
+//     */
+//    public function getAnalyze($sentence = null)
+//    {
+//        $elasticsearchConfig=$this->getElasticsearchConfig();
+//        $result = $this->setHost($elasticsearchConfig['url'])
+//            ->setAction("_analyze")
+////            ->addParam("field", "same.search")//include title and subtitle
+//            ->addParam("text", urlencode($sentence))
+////            ->setIndex("same")
+//            ->get();
+//        $words = [];
+//        if(!isset($result->error)) {
+//            if (count($result->tokens) > 0) {
+//                foreach ($result->tokens as $value) {
+//                    $words[] = $value->token;
+//                }
+//            }
+//        }
+//        return $words;
+//    }
+
+    public function __construct()
     {
-        $elasticsearchConfig=$this->getElasticsearchConfig();
-        $result = $this->setHost($elasticsearchConfig['url'])
-            ->setAction("_analyze")
-//            ->addParam("field", "same.search")//include title and subtitle
-            ->addParam("text", urlencode($sentence))
-//            ->setIndex("same")
-            ->get();
-        $words = [];
-        if(!isset($result->error)) {
-            if (count($result->tokens) > 0) {
-                foreach ($result->tokens as $value) {
-                    $words[] = $value->token;
-                }
-            }
-        }
-        return $words;
+//        // TODO ...
+//        return $this;
+    }
+
+    public static function getResult($string)
+    {
+        return [];
     }
 
     /**
@@ -41,21 +52,26 @@ class AnalyzeManage extends ElasticsearchUrl
      */
     public function getAnalyzeDict()
     {
-        //get all title
-        $dataManage = new DataManage();
-        $goodsData = $dataManage->getAllTitle();
-        $dicts = [];
-        foreach ($goodsData as $key => $value) {
-            $words = $this->getAnalyze($value['title'] . $value['subtitle'] . $value['attribute_name']);
-            foreach ($words as $name) {
-                //echo $value['title'];exit();
-                $match = '/^[a-z|0-9]/';
-                if (!preg_match($match, $name)) {
-                    $dicts[] = $name;
-                }
-            }
-        }
-        return array_unique($dicts);
+
+
+        return [
+            Pinyin::getPinyin('你好')
+        ];
+//        //get all title
+//        $dataManage = new DataManage();
+//        $goodsData = $dataManage->getAllTitle();
+//        $dicts = [];
+//        foreach ($goodsData as $key => $value) {
+//            $words = $this->getAnalyze($value['title'] . $value['subtitle'] . $value['attribute_name']);
+//            foreach ($words as $name) {
+//                //echo $value['title'];exit();
+//                $match = '/^[a-z|0-9]/';
+//                if (!preg_match($match, $name)) {
+//                    $dicts[] = $name;
+//                }
+//            }
+//        }
+//        return array_unique($dicts);
     }
 
     /**

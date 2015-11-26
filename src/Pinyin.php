@@ -42,7 +42,7 @@ class Pinyin
      * @param $word
      * @return mixed
      */
-    public function getPinyin($word)
+    public static function getPinyin($word)
     {
         BasePinyin::set('accent',false);
         return BasePinyin::trans($word);
