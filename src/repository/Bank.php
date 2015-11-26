@@ -48,5 +48,10 @@ class Bank
             $this->store->store($account->getName(),$account->getAmount());
         }
     }
+
+    public function withdrawal()
+    {
+
+    }
 }
 
