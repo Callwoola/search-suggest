@@ -1,49 +1,100 @@
 <?php
 
 namespace Callwoola\SearchSuggest\repository;
-use Callwoola\SearchSuggest\Pinyin;
 
+use Callwoola\SearchSuggest\Pinyin;
+use phpSplit\Split\Split;
+
+class AccountIterator implements \Iterator
+{
+    private $accounts = [];
+
+    public function __construct($accounts)
+    {
+        if (is_array($accounts)) {
+            $this->accounts = $accounts;
+        }
+    }
+
+    public function current()
+    {
+        return current($this->accounts);
+    }
+
+    public function next()
+    {
+        return key($this->accounts);
+    }
+
+    public function key()
+    {
+        return next($this->accounts);
+    }
+
+    public function valid()
+    {
+        $account = key($this->accounts);
+
+        return ($account !== null && $account !== false);
+    }
+
+    public function rewind()
+    {
+        reset($this->accounts);
+    }
+}
 
 /**
  * 通过 php-split 词库 进行分词，同时检查Callwoola.dat 是否有特定的分词条件
  *
  */
-class Analyze //extends ElasticsearchUrl
+class Analyze
 {
-//    use Configuration;
-//    /**
-//     * 得到分词后的数据
-//     * @return array
-//     */
-//    public function getAnalyze($sentence = null)
-//    {
-//        $elasticsearchConfig=$this->getElasticsearchConfig();
-//        $result = $this->setHost($elasticsearchConfig['url'])
-//            ->setAction("_analyze")
-////            ->addParam("field", "same.search")//include title and subtitle
-//            ->addParam("text", urlencode($sentence))
-////            ->setIndex("same")
-//            ->get();
-//        $words = [];
-//        if(!isset($result->error)) {
-//            if (count($result->tokens) > 0) {
-//                foreach ($result->tokens as $value) {
-//                    $words[] = $value->token;
-//                }
-//            }
-//        }
-//        return $words;
-//    }
+    protected $string;
 
-    public function __construct()
+    protected $account;
+
+    private function __construct()
     {
-//        // TODO ...
-//        return $this;
     }
 
-    public static function getResult($string)
+    public static function start($string)
     {
-        return [];
+        // TODO 分词+原句
+        $split     = new Split();
+        $strings   = $split->start($string);
+        $strings[] = $string;
+        // TODO 过滤
+        return self::generate($strings);
+    }
+
+    /**
+     * ...
+     *
+     * @param $strings
+     * @return array
+     */
+    public static function generate($strings)
+    {
+        $generates = [];
+        foreach ($strings as $string) {
+            $account = new Account();
+            $account->setName(Pinyin::getPinyin($string));
+            $account->setAmount($string);
+            $generates[] = $account;
+
+            $account = new Account();
+            $account->setName(Pinyin::getPinyinFirst($string));
+            $account->setAmount($string);
+            $generates[] = $account;
+
+            $account = new Account();
+            $account->setName($string);
+            $account->setAmount($string);
+            $generates[] = $account;
+        }
+
+        return $generates;
     }
 
     /**
@@ -53,25 +104,22 @@ class Analyze //extends ElasticsearchUrl
     public function getAnalyzeDict()
     {
 
-
-        return [
-            Pinyin::getPinyin('你好')
-        ];
-//        //get all title
-//        $dataManage = new DataManage();
-//        $goodsData = $dataManage->getAllTitle();
-//        $dicts = [];
-//        foreach ($goodsData as $key => $value) {
-//            $words = $this->getAnalyze($value['title'] . $value['subtitle'] . $value['attribute_name']);
-//            foreach ($words as $name) {
-//                //echo $value['title'];exit();
-//                $match = '/^[a-z|0-9]/';
-//                if (!preg_match($match, $name)) {
-//                    $dicts[] = $name;
-//                }
-//            }
-//        }
-//        return array_unique($dicts);
+        return [Pinyin::getPinyin('你好')];
+        //        //get all title
+        //        $dataManage = new DataManage();
+        //        $goodsData = $dataManage->getAllTitle();
+        //        $dicts = [];
+        //        foreach ($goodsData as $key => $value) {
+        //            $words = $this->getAnalyze($value['title'] . $value['subtitle'] . $value['attribute_name']);
+        //            foreach ($words as $name) {
+        //                //echo $value['title'];exit();
+        //                $match = '/^[a-z|0-9]/';
+        //                if (!preg_match($match, $name)) {
+        //                    $dicts[] = $name;
+        //                }
+        //            }
+        //        }
+        //        return array_unique($dicts);
     }
 
     /**
@@ -91,7 +139,7 @@ class Analyze //extends ElasticsearchUrl
         //$pinyin = new Pinyin();
         $pinyin = Pinyin::init();
         foreach ($dict as $k => $v) {
-            $key = $pinyin->getPinyin($v, 1);
+            $key                = $pinyin->getPinyin($v, 1);
             $cacheArray[$key][] = $v;
         }
         //add more Initials
@@ -102,7 +150,7 @@ class Analyze //extends ElasticsearchUrl
                     foreach (range(0, strlen($key) - 1) as $num) {
                         if (array_key_exists($key[$num], $cacheArray)) {
                             // merge Initials and Initials word into exit single initial
-                            $merge = array_merge($cacheArray[$key], $cacheArray[$key[$num]]);
+                            $merge                  = array_merge($cacheArray[$key], $cacheArray[$key[$num]]);
                             $cacheArray[$key[$num]] = array_unique($merge);
                         } else {
                             $cacheArray[$key[$num]] = $cacheArray[$key];
@@ -111,7 +159,7 @@ class Analyze //extends ElasticsearchUrl
                 } else {
                     if (array_key_exists($key[0], $cacheArray)) {
                         // merge Initials and Initials word into exit single initial
-                        $merge = array_merge($cacheArray[$key], $cacheArray[$key[0]]);
+                        $merge               = array_merge($cacheArray[$key], $cacheArray[$key[0]]);
                         $cacheArray[$key[0]] = array_unique($merge);
                     } else {
                         $cacheArray[$key[0]] = $cacheArray[$key];
@@ -119,6 +167,7 @@ class Analyze //extends ElasticsearchUrl
                 }
             }
         }
+
         return $cacheArray;
     }
 
@@ -134,17 +183,17 @@ class Analyze //extends ElasticsearchUrl
             $dict = $this->getAnalyzeDict();
         }
         $cacheArray = [];
-        $pinyin = Pinyin::init();
+        $pinyin     = Pinyin::init();
         if ($isAll == 1) {
             //每个字的全拼
             foreach ($dict as $words) {
                 $stringArray = $pinyin->stringToArray($words);
-                $linkpinyin='';
+                $linkpinyin  = '';
                 foreach ($stringArray as $k => $word) {
-                    $tranPinyin = $pinyin->getPinyin($word);
-                    $linkpinyin=$linkpinyin.$tranPinyin;
+                    $tranPinyin                = $pinyin->getPinyin($word);
+                    $linkpinyin                = $linkpinyin . $tranPinyin;
                     $cacheArray[$linkpinyin][] = $words;
-                    if($k>0){
+                    if ($k > 0) {
                         $cacheArray[$linkpinyin][] = $words;
                     }
                 }
@@ -152,11 +201,12 @@ class Analyze //extends ElasticsearchUrl
         } else {
             //首个字的全拼
             foreach ($dict as $v) {
-                $stringArray = $pinyin->stringToArray($v);
-                $key = $pinyin->getPinyin($stringArray[0]);
+                $stringArray        = $pinyin->stringToArray($v);
+                $key                = $pinyin->getPinyin($stringArray[0]);
                 $cacheArray[$key][] = $v;
             }
         }
+
         return $cacheArray;
     }
 
@@ -179,12 +229,12 @@ class Analyze //extends ElasticsearchUrl
             //each word
             foreach ($dict as $words) {
                 $stringArray = $pinyin->stringToArray($words);
-                $linkpinyin='';
+                $linkpinyin  = '';
                 foreach ($stringArray as $k => $word) {
-                    $tranPinyin = $pinyin->getPinyin($word);
-                    $linkpinyin=$linkpinyin.$tranPinyin;
+                    $tranPinyin                = $pinyin->getPinyin($word);
+                    $linkpinyin                = $linkpinyin . $tranPinyin;
                     $cacheArray[$linkpinyin][] = $words;
-                    if($k>0){
+                    if ($k > 0) {
                         $cacheArray[$linkpinyin][] = $words;
                     }
                 }
@@ -192,8 +242,8 @@ class Analyze //extends ElasticsearchUrl
         } else {
             //first word
             foreach ($dict as $v) {
-                $stringArray = $pinyin->stringToArray($v);
-                $key = $pinyin->getPinyin($stringArray[0]);
+                $stringArray        = $pinyin->stringToArray($v);
+                $key                = $pinyin->getPinyin($stringArray[0]);
                 $cacheArray[$key][] = $v;
             }
         }
@@ -213,7 +263,7 @@ class Analyze //extends ElasticsearchUrl
                         $selfToRelative[$keyRelative] = $cacheArray[$key];
                     }
                     if (array_key_exists($keyRelative, $cacheArray)) {//merge
-                        $merge = array_unique(array_merge($cacheArray[$keyRelative], $cacheArray[$key]));
+                        $merge                        = array_unique(array_merge($cacheArray[$keyRelative], $cacheArray[$key]));
                         $selfToRelative[$keyRelative] = $merge;
                     }
                 }
@@ -226,7 +276,7 @@ class Analyze //extends ElasticsearchUrl
                         $selfToRelative[$keyRelative] = $cacheArray[$key];
                     }
                     if (array_key_exists($keyRelative, $cacheArray)) {//merge
-                        $merge = array_unique(array_merge($cacheArray[$keyRelative], $cacheArray[$key]));
+                        $merge                        = array_unique(array_merge($cacheArray[$keyRelative], $cacheArray[$key]));
                         $selfToRelative[$keyRelative] = $merge;
                     }
                 }
@@ -245,7 +295,7 @@ class Analyze //extends ElasticsearchUrl
                         $relativeToSelf[$keyRelative] = $cacheArray[$key];
                     }
                     if (array_key_exists($keyRelative, $cacheArray)) {//merge
-                        $merge = array_unique(array_merge($cacheArray[$keyRelative], $cacheArray[$key]));
+                        $merge                        = array_unique(array_merge($cacheArray[$keyRelative], $cacheArray[$key]));
                         $relativeToSelf[$keyRelative] = $merge;
                     }
                 }
@@ -259,12 +309,13 @@ class Analyze //extends ElasticsearchUrl
                         $relativeToSelf[$keyRelative] = $cacheArray[$key];
                     }
                     if (array_key_exists($keyRelative, $cacheArray)) {//merge
-                        $merge = array_unique(array_merge($cacheArray[$keyRelative], $cacheArray[$key]));
+                        $merge                        = array_unique(array_merge($cacheArray[$keyRelative], $cacheArray[$key]));
                         $relativeToSelf[$keyRelative] = $merge;
                     }
                 }
             }
         }
+
         return $this->mergeData($relativeToSelf, $selfToRelative);
     }
 
@@ -274,25 +325,26 @@ class Analyze //extends ElasticsearchUrl
      */
     public function getCacheChinese()
     {
-        $dataManage = new DataManage();
-        $goodsData = $dataManage->getGoodsRecord();
-        $chineseList=[];
+        $dataManage  = new DataManage();
+        $goodsData   = $dataManage->getGoodsRecord();
+        $chineseList = [];
         // get all chinese string
         foreach ($goodsData as $k => $v) {
-            $v = (object)$v;
-            $search = $v->title . $v->subtitle . $v->attribute_name;
-            $chineseList=array_unique(array_merge($this->getAnalyze($search),$chineseList));
+            $v           = (object)$v;
+            $search      = $v->title . $v->subtitle . $v->attribute_name;
+            $chineseList = array_unique(array_merge($this->getAnalyze($search), $chineseList));
         }
 
         //filter item
-        $filterList=[];
+        $filterList = [];
         foreach ($chineseList as $v) {
-            if(!preg_match("/[a-z|A-Z|0-9|\\s]+/i",$v)){
-                if(count(Pinyin::init()->stringToArray($v))>=2){
-                    $filterList[]=$v;
+            if (!preg_match("/[a-z|A-Z|0-9|\\s]+/i", $v)) {
+                if (count(Pinyin::init()->stringToArray($v)) >= 2) {
+                    $filterList[] = $v;
                 }
             }
         }
+
         return $filterList;
     }
 
@@ -309,13 +361,14 @@ class Analyze //extends ElasticsearchUrl
         foreach ($args as $key => $value) {
             foreach ($value as $k => $v) {
                 if (array_key_exists($k, $mergeArray)) {
-                    $merge = array_merge($mergeArray[$k], $value[$k]);
+                    $merge          = array_merge($mergeArray[$k], $value[$k]);
                     $mergeArray[$k] = array_unique($merge);
                 } else {
                     $mergeArray[$k] = $v;
                 }
             }
         }
+
         return $mergeArray;
     }
 

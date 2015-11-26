@@ -20,8 +20,8 @@ class BankTest extends baseTest
     public function testOne()
     {
         $bank = new Bank();
-        $bank->deposit(new Coin());
-        $bank->deposit(new Coin());
+        $bank->deposit(new Coin('康师傅牛肉面'));
+        $bank->deposit(new Coin('苹果手机iphone6'));
 
         $this->assertTrue(true);
     }

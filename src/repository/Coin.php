@@ -11,71 +11,32 @@ namespace Callwoola\SearchSuggest\repository;
  */
 class Coin implements CoinInterface
 {
-    /**
-     * 搜索名称
-     *
-     * @var
-     */
-    protected $name;
+
+    protected $sentence = '';
 
     /**
-     * 返回内容
-     *
-     * @var
+     * @param $string
      */
-    protected $value;
-
-    /**
-     * @param $name
-     */
-    public function __construct($name = '')
+    public function __construct($string = '')
     {
-
-        if (!empty($name)) {
-            $this->setName($name);
-        }
-
-        $value = Analyze::getResult($name);
-
-        if (!empty($value)) {
-            $this->setValue($value);
-        }
-    }
-
-
-    /**
-     * @return mixed
-     */
-    public function getName()
-    {
-        return $this->name;
+        $this->setSentence($string);
     }
 
     /**
      * @return mixed
      */
-    public function getValue()
+    public function getSentence()
     {
-        return $this->value;
+        return $this->sentence;
     }
-
 
     /**
-     * @param string $name
+     * @param string $sentence
      * @return void
      */
-    public function setName($name)
+    public function setSentence($sentence)
     {
-        $this->name = $name;
+        $this->sentence = $sentence;
     }
 
-
-    /**
-     * @param array $value
-     * @return void
-     */
-    public function setValue($value)
-    {
-        $this->value = $value;
-    }
 }

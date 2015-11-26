@@ -45,6 +45,14 @@ class Pinyin
     public static function getPinyin($word)
     {
         BasePinyin::set('accent',false);
+        BasePinyin::set('delimiter', '');
         return BasePinyin::trans($word);
+    }
+
+    public static function getPinyinFirst($word)
+    {
+        BasePinyin::set('accent',false);
+        BasePinyin::set('delimiter', '');
+        return BasePinyin::letter($word);
     }
 }

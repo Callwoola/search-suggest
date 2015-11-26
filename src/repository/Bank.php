@@ -4,7 +4,6 @@ namespace Callwoola\SearchSuggest\repository;
 
 
 use Callwoola\SearchSuggest\StoreAdapter\Store;
-use Callwoola\SearchSuggest\StoreAdapter\StoreInterface;
 
 
 class Bank
@@ -34,18 +33,20 @@ class Bank
 
     public function getCoin($name = '')
     {
-        return '\\String Coin\\';
     }
 
     public function getStoreName(){
 //        return $this->store->getName();
     }
 
-    public function deposit(CoinInterface $coin)
+    public function deposit(Coin $coin)
     {
-        echo "store ing.. \n";
+        $accounts = Analyze::start($coin->getSentence());
 
-        $this->store->store($coin->getName(),$coin->getValue());
+        foreach($accounts as $account)
+        {
+            $this->store->store($account->getName(),$account->getAmount());
+        }
     }
 }
 
