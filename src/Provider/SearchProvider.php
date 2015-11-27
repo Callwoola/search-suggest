@@ -5,9 +5,6 @@ use Illuminate\Support\ServiceProvider;
 
 class SearchProvider extends ServiceProvider
 {
-    private $commands = [
-        '\Callwoola\Search\Console\Commands\Update',
-    ];
 
     public function boot()
     {
@@ -18,9 +15,7 @@ class SearchProvider extends ServiceProvider
     {
         $this->app->bindShared('suggest', function ($app) {
             $path = 'Callwoola\\SearchSuggest\\Suggest';
-//            $config = $app['config']->get('Callwoola/search::config');
             return new $path();
         });
-//        $this->commands($this->commands);
     }
 }

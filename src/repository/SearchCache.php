@@ -2,35 +2,8 @@
 
 namespace Callwoola\SearchSuggest\repository;
 
-
-
 class CacheManage
 {
-
-
-    public function fire()
-    {
-        // TODO optimize code
-
-        $start = microtime(true);
-        $this->info('Update Callwoola-search Cache...');
-        $indexManage = new IndexManage();
-        $indexManage->byElasticsearch();
-        $this->info("Create Elasticsearch Index successful!");
-        $AnalyzeManage = new AnalyzeManage();
-        $cacheInitials = $AnalyzeManage->getCacheInitials();
-        $cachePinyin = $AnalyzeManage->getCachePinyin(1);
-        $cacheFuzzySoundPinyin = $AnalyzeManage->getCacheFuzzySoundPinyin(1);
-        $testdata = $AnalyzeManage->mergeData($cacheInitials, $cachePinyin, $cacheFuzzySoundPinyin);
-        SearchCache::init()->setPinyinIndex($testdata);
-        $this->info("Create Pinyin Cache Index successful!");
-        $chineseList = $AnalyzeManage->getCacheChinese();
-        SearchCache::init()->setChineseIndex($chineseList);
-        $timeElapsed = microtime(true) - $start;
-        $this->info("Create Chinese Cache Index successful!");
-        $this->info(" Total time: $timeElapsed second");
-    }
-
     protected static $config = [
         'key' => 'Callwoolasearch-',
         'index' => 'woola',//default
@@ -192,6 +165,30 @@ class CacheManage
     private static function keyLocalGet($keyword, $indexName = null)
     {
         return str_replace(self::$config['key'] . ($indexName === null ? self::$config['index'] : $indexName) . ':', '', $keyword);
+    }
+
+
+    public function fire()
+    {
+        // TODO optimize code
+
+        $start = microtime(true);
+        $this->info('Update Callwoola-search Cache...');
+        $indexManage = new IndexManage();
+        $indexManage->byElasticsearch();
+        $this->info("Create Elasticsearch Index successful!");
+        $AnalyzeManage = new AnalyzeManage();
+        $cacheInitials = $AnalyzeManage->getCacheInitials();
+        $cachePinyin = $AnalyzeManage->getCachePinyin(1);
+        $cacheFuzzySoundPinyin = $AnalyzeManage->getCacheFuzzySoundPinyin(1);
+        $testdata = $AnalyzeManage->mergeData($cacheInitials, $cachePinyin, $cacheFuzzySoundPinyin);
+        SearchCache::init()->setPinyinIndex($testdata);
+        $this->info("Create Pinyin Cache Index successful!");
+        $chineseList = $AnalyzeManage->getCacheChinese();
+        SearchCache::init()->setChineseIndex($chineseList);
+        $timeElapsed = microtime(true) - $start;
+        $this->info("Create Chinese Cache Index successful!");
+        $this->info(" Total time: $timeElapsed second");
     }
 }
 
