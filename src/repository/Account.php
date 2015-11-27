@@ -51,9 +51,9 @@ class Account
     /**
      * @param array $amount
      */
-    public function setAmount($amount)
+    public function addAmount($amount)
     {
-        $this->amount = $amount;
+        $this->amount[] = strtolower($amount);
     }
 
 }

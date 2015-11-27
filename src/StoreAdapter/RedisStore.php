@@ -6,7 +6,9 @@ use Predis\Client;
 
 class RedisStore implements StoreInterface
 {
-    private $name = 'php-suggest-redis-prefix';
+    private $prefix = 'php-suggest-redis-prefix';
+
+    private $name;
 
     private $value = [];
 
@@ -14,13 +16,13 @@ class RedisStore implements StoreInterface
 
 
     /**
+     * @param $config
      * 实例化 REDIS 为数据媒介
      */
-    public function __construct()
+    public function __construct($config = [])
     {
         // TODO 优化性能
-
-        $config = ['scheme' => 'tcp', 'host' => '127.0.0.1', 'port' => 6379,];
+        $config = !isset($config) ? ['scheme' => 'tcp', 'host' => '127.0.0.1', 'port' => 6379,] : $config;
 
         $this->client = new Client($config);
     }
@@ -39,10 +41,10 @@ class RedisStore implements StoreInterface
             $value = $value == null ? $this->value : $value;
             if (is_array($value) AND count($value) > 0) {
                 foreach ($value as $singleValue) {
-                    $this->client->sadd($this->name . '-' . $key, $singleValue);
+                    $this->client->sadd($this->prefix . '-' . $key, $singleValue);
                 }
             } elseif (is_string($value)) {
-                $this->client->set($this->name . '-' . $key, $value);
+                $this->client->set($this->prefix . '-' . $key, $value);
             }
 
             return;
@@ -56,20 +58,47 @@ class RedisStore implements StoreInterface
 
     }
 
+    /**
+     * 全匹配数据 返回最合理的10个
+     *
+     * @param string $name
+     * @return array
+     */
     public function find($name)
     {
-        $this->get($this->name . "*");
+        // TODO 排序
+        $keyList =  $this->client->keys($this->prefix . '*' . $name . '*');
+        $returnList = [];
+
+        foreach ($keyList as $keyString)
+        {
+            $list = $this->client->smembers($keyString);
+
+            foreach ($list as $eachString)
+            {
+                if (strlen($eachString) > 3)
+                {
+                    $returnList[] = $eachString;
+                }
+            }
+        }
+
+        return array_slice(array_unique($returnList), 0, 10);
     }
 
-    public function key($name = '')
+    public function setKey($name = '')
     {
         $this->name = $name;
     }
 
-    public function value($array = [])
+    public function setValue($array = [])
     {
         $this->value = $array;
     }
 
+    public function clear()
+    {
+        return $this->client->flushdb();
+    }
 
 }

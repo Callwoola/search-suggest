@@ -1,14 +1,10 @@
 <?php
 namespace SuggestTest;
 
-
-use Callwoola\SearchSuggest\repository\Coin;
 use phpSplit\Split\Split;
 use Callwoola\SearchSuggest\Pinyin;
-use Callwoola\SearchSuggest\Container;
 use Callwoola\SearchSuggest\repository\Bank;
-use Callwoola\SearchSuggest\StoreAdapter\Store;
-use Callwoola\SearchSuggest\Currency\PinyinCurrency;
+use Callwoola\SearchSuggest\repository\Coin;
 
 /**
  * Class BankTest
@@ -16,8 +12,10 @@ use Callwoola\SearchSuggest\Currency\PinyinCurrency;
  */
 class BankTest extends baseTest
 {
+    protected function setUp()
+    {
 
-
+    }
 
     /**
      * @return null
@@ -26,12 +24,11 @@ class BankTest extends baseTest
     {
         $this->info('start php-split testing ...');
         $split = new Split();
-        $split = $split->start("康师傅牛肉面");
+        $split = $split->start("苹果手机iphone6");
         foreach ($split as $word) {
             $this->info($word);
         }
         $this->assertTrue(count($split) > 0);
-
         return null;
     }
 
@@ -41,7 +38,7 @@ class BankTest extends baseTest
 
         $content = $test->getPinyin('你好拼音');
         $this->comment($content);
-        $this->assertTrue($content);
+        $this->assertTrue(!empty($content));
     }
 
     /**
@@ -57,37 +54,55 @@ class BankTest extends baseTest
 
         // TODO 更多的插件
 
-        //        $container = new Container();
-        //
-        //        $container->bank(function () {
-        //            return (new Bank(new PinyinCurrency))->getCoin();
-        //        });
         $bank = new Bank();
-        $bank->deposit(new Coin('康师傅牛肉面'));
-        $bank->deposit(new Coin('苹果手机iphone6'));
-
-        $this->assertTrue(true);
-        return null;
-    }
-
-    public function testSearch()
-    {
-        $bank = new Bank();
-        $bank->deposit(new Coin('康师傅牛肉面'));
-        $bank->deposit(new Coin('苹果手机iphone6'));
+        $bank->robAll();
+        $sentences = [
+            '门框、窗框饰线',
+            '地毯砖洛维娜 ',
+            '地毯砖芬迪尔',
+            '中式吊灯中式全铜云石吊灯',
+            '进口PVC革现货荔枝纹软包沙发',
+            '设计师的公司',
+        ];
+        foreach ($sentences as $sentence) {
+            $bank->deposit(new Coin($sentence));
+        }
 
         $this->assertTrue(true);
         return null;
     }
 
     /**
-     * 设计文件
+     * 搜索测试
      *
-     * @return array
+     * @return null
      */
-    private function getFile()
+    public function testSearch()
     {
-        return [[new Store]];
+        $bank = new Bank();
+        $words = [
+            '进口',
+            '中式',
+            'zs',
+            'zhong',
+            'm',
+            'ji',
+            '窗框',
+            'ck',
+            'pvc',
+            's'
+        ];
+        foreach($words as $word)
+        {
+            $results = $bank->withdrawal($word);
+            $this->comment('result..'.$word);
+            foreach($results as $result){
+                $this->info($word . '=>' . $result);
+            }
+        }
+        $this->assertTrue(true);
+
+        return null;
     }
 
     /**
@@ -98,11 +113,6 @@ class BankTest extends baseTest
      */
     public function testFile()
     {
-        //        foreach ($this->getFile() as $test) {
-        //            $Bank = new Bank($test);
-        //            echo $Bank->getName();
-        //        }
-
         return null;
     }
 

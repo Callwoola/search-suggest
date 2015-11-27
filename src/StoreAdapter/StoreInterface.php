@@ -32,14 +32,18 @@ interface StoreInterface
      * @param string $name
      * @return mixed
      */
-    public function key($name);
+    public function setKey($name);
 
 
     /**
      * @param string $value
      * @return mixed
      */
-    public function value($value);
+    public function setValue($value);
 
 
+    /**
+     * @return mixed
+     */
+    public function clear();
 }

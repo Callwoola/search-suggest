@@ -35,7 +35,8 @@ class Bank
     {
     }
 
-    public function getStoreName(){
+    public function getStoreName()
+    {
 //        return $this->store->getName();
     }
 
@@ -49,9 +50,16 @@ class Bank
         }
     }
 
-    public function withdrawal()
+    public function withdrawal($word)
     {
+        $word = Analyze::parse($word);
 
+        return $this->store->find($word);
+    }
+
+    public function robAll()
+    {
+        return $this->store->clear();
     }
 }
 

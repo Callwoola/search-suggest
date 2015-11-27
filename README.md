@@ -12,7 +12,7 @@ Search suggest / elasticsearch
 在composer.json文件中 **requird** 项中添加
 
 ```json
-"callwoola/searchsuggest": "dev-develop"
+"Callwoola/search-suggest": "0.1.2"
 ```
 
 更新项目依赖

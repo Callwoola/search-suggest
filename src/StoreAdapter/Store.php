@@ -40,23 +40,23 @@ class Store implements StoreInterface
      */
     public function find($name)
     {
-        $this->store->find($name);
+        return $this->store->find($name);
     }
 
     /**
      * @param string $name
-     * @return void
+     * @return mixed
      */
     public function get($name)
     {
-        $this->store->get($name);
+        return $this->store->get($name);
     }
 
     /**
      * @param $name
-     * @return void
+     * @return mixed
      */
-    public function key($name)
+    public function setKey($name)
     {
         $this->store->key($name);
     }
@@ -65,9 +65,14 @@ class Store implements StoreInterface
      * @param $value
      * @return void
      */
-    public function value($value)
+    public function setValue($value)
     {
         $this->store->value($value);
+    }
+
+    public function clear()
+    {
+        $this->store->clear();
     }
 
 }

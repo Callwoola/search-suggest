@@ -12,7 +12,7 @@ class FileStore implements StoreInterface
 
     public function __construct()
     {
-        //        $this->path = __DIR__ . '/../../temp';
+        // $this->path = __DIR__ . '/../../temp';
     }
 
     public function store($name, $value)
@@ -26,12 +26,12 @@ class FileStore implements StoreInterface
         return null;
     }
 
-    public function key($name = '')
+    public function setKey($name = '')
     {
         $this->name = $name;
     }
 
-    public function value($array = [])
+    public function setValue($array = [])
     {
         $this->value = $array;
     }
@@ -45,5 +45,7 @@ class FileStore implements StoreInterface
     {
     }
 
-
+    public function clear()
+    {
+    }
 }
