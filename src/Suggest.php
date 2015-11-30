@@ -27,7 +27,7 @@ class Suggest
     {
         // TODO 设置私有词库
         $bank = new Bank();
-
+        $suggests = [];
         $results = $bank->withdrawal($word);
         foreach($results as $result){
             $suggests[] =  $result;
