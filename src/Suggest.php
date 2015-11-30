@@ -20,20 +20,17 @@ class Suggest
     }
 
     /**
-     * @param array $words
+     * @param string $word
      * @return array
      */
-    public function search($words = [])
+    public function search($word)
     {
         // TODO 设置私有词库
         $bank = new Bank();
-        $suggests = [];
-        foreach($words as $word)
-        {
-            $results = $bank->withdrawal($word);
-            foreach($results as $result){
-                $suggests[] =  $result;
-            }
+
+        $results = $bank->withdrawal($word);
+        foreach($results as $result){
+            $suggests[] =  $result;
         }
 
         return $suggests;
