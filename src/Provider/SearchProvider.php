@@ -1,5 +1,5 @@
 <?php
-namespace Callwoola\Search\Provider;
+namespace Callwoola\SearchSuggest\Provider;
 
 use Illuminate\Support\ServiceProvider;
 

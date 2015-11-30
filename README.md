@@ -23,13 +23,13 @@ composer update -v
 在app/config/app.php中 **providers** 项中添加这一项
 
 ```php
-'..\Search\Provider\SearchProvider',
+'Callwoola\SearchSuggest\Provider\SearchProvider',
 ```
 
 在app/config/app.php中 **aliases** 项中添加别名
 
 ```php
-'SearchSuggest' => '..\Search\Provider\Facades\Search',
+'SearchSuggest' => 'Callwoola\SearchSuggest\Provider\Facades\Suggest',
 ```
 
 ## Config
