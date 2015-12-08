@@ -10,6 +10,8 @@ use Callwoola\SearchSuggest\repository\Coin;
  */
 class Suggest
 {
+    const VERSION = '0.1.3';
+
     protected $bank;
     /**
      *

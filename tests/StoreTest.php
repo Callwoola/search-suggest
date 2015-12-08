@@ -5,13 +5,16 @@ use phpSplit\Split\Split;
 use Callwoola\SearchSuggest\Pinyin;
 use Callwoola\SearchSuggest\repository\Bank;
 use Callwoola\SearchSuggest\repository\Coin;
+use SuggestTest\Data\TestData;
 
 /**
  * Class BankTest
  * @package SuggestTest
  */
-class BankTest extends baseTest
+class BankTest extends BaseTest
 {
+    use TestData;
+
     protected function setUp()
     {
 
@@ -56,15 +59,10 @@ class BankTest extends baseTest
 
         $bank = new Bank();
         $bank->robAll();
-        $sentences = [
-            '门框、窗框饰线',
-            '地毯砖洛维娜 ',
-            '地毯砖芬迪尔',
-            '中式吊灯中式全铜云石吊灯',
-            '进口PVC革现货荔枝纹软包沙发',
-            '设计师的公司',
-        ];
-        foreach ($sentences as $sentence) {
+        $sentences = self::getData();
+
+        foreach ($sentences as $sentence)
+        {
             $bank->deposit(new Coin($sentence));
         }
 

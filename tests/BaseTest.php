@@ -16,7 +16,7 @@ class baseTestCommand extends Command
     }
 }
 
-class baseTest extends \PHPUnit_Framework_TestCase
+class BaseTest extends \PHPUnit_Framework_TestCase
 {
     private $command;
 

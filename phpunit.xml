@@ -14,7 +14,7 @@
         >
     <testsuites>
         <testsuite name="Bank">
-            <directory>./tests/BankTest.php</directory>
+            <directory>./tests/SearchTest.php</directory>
         </testsuite>
 
         <!--<testsuite name="Index">-->
