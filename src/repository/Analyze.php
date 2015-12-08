@@ -87,7 +87,7 @@ class Analyze
     {
         foreach ($strings as $key => $string)
         {
-            // 空字符或者单字不能进入缓存
+            // 空字符或者单字不能进入缓存 和 符号
             if (empty($string) OR strlen($string) > 3)
             {
                 unset($strings[$key]);
@@ -111,18 +111,11 @@ class Analyze
         $generates = [];
         foreach ($strings as $string)
         {
-            $account = new Account();
-            $account->setName(Pinyin::getPinyin($string));
-            $account->addAmount($string);
-            $generates[] = $account;
+            // 添加
+            $name = Pinyin::getPinyin($string) . '@' . Pinyin::getPinyinFirst($string) ;
 
             $account = new Account();
-            $account->setName(Pinyin::getPinyinFirst($string));
-            $account->addAmount($string);
-            $generates[] = $account;
-
-            $account = new Account();
-            $account->setName($string);
+            $account->setName($name);
             $account->addAmount($string);
             $generates[] = $account;
         }
@@ -137,12 +130,20 @@ class Analyze
      */
     public static function parse($word)
     {
+        $word = Pinyin::getPinyin($word);
+
         return strtolower($word);
+    }
+
+
+    public function sort($origin,$compare)
+    {
+        similar_text($origin,$compare,$percent);
+        return $percent
     }
 
     /**
      * 缓存全拼的 模糊音
-     * @param string $word
      * @param int $isAll
      * @return array $cacheArray
      */

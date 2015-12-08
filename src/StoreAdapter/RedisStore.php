@@ -6,7 +6,7 @@ use Predis\Client;
 
 class RedisStore implements StoreInterface
 {
-    private $prefix = 'php-suggest-redis-prefix';
+    private $prefix = 'php-suggest-redis-prefix-';
 
     private $name;
 
@@ -40,12 +40,14 @@ class RedisStore implements StoreInterface
             $key   = $key == null ? $this->name : $key;
             $value = $value == null ? $this->value : $value;
             if (is_array($value) AND count($value) > 0) {
-                foreach ($value as $singleValue) {
-                    $this->client->sadd($this->prefix . '-' . $key, $singleValue);
+                foreach ($value as $singleValue)
+                {
+                    $this->client->sadd($this->prefix . $key, $singleValue);
                 }
             } elseif (is_string($value)) {
-                $this->client->set($this->prefix . '-' . $key, $value);
+                $this->client->set($this->prefix . $key, $value);
             }
+
 
             return;
         }
@@ -67,7 +69,9 @@ class RedisStore implements StoreInterface
     public function find($name)
     {
         // TODO 排序
-        $keyList =  $this->client->keys($this->prefix . '*' . $name . '*');
+        $strategy = (strlen($name) > 1) ? $this->prefix . '*' . $name . '*' : $this->prefix . $name . '*';
+
+        $keyList =  $this->client->keys($strategy);
         $returnList = [];
 
         foreach ($keyList as $keyString)
@@ -101,4 +105,8 @@ class RedisStore implements StoreInterface
         return $this->client->flushdb();
     }
 
+    public function getAll()
+    {
+        return $this->client->keys('*');
+    }
 }
