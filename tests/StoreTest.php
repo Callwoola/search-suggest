@@ -5,6 +5,7 @@ use phpSplit\Split\Split;
 use Callwoola\SearchSuggest\Pinyin;
 use Callwoola\SearchSuggest\repository\Bank;
 use Callwoola\SearchSuggest\repository\Coin;
+use SuggestTest\Support\BaseTest;
 use SuggestTest\Data\TestData;
 
 /**
@@ -17,7 +18,12 @@ class BankTest extends BaseTest
 
     protected function setUp()
     {
+        $this->info("........................ start BankTest search............................\n\r");
+    }
 
+    protected function tearDown()
+    {
+        $this->info("........................   end BankTest search............................\n\r");
     }
 
     /**
@@ -57,6 +63,8 @@ class BankTest extends BaseTest
 
         // TODO 更多的插件
 
+        $this->comment('start index...');
+
         $bank = new Bank();
         $bank->robAll();
         $sentences = self::getData();
@@ -70,38 +78,6 @@ class BankTest extends BaseTest
         return null;
     }
 
-    /**
-     * 搜索测试
-     *
-     * @return null
-     */
-    public function testSearch()
-    {
-        $bank = new Bank();
-        $words = [
-            '进口',
-            '中式',
-            'zs',
-            'zhong',
-            'm',
-            'ji',
-            '窗框',
-            'ck',
-            'pvc',
-            's'
-        ];
-        foreach($words as $word)
-        {
-            $results = $bank->withdrawal($word);
-            $this->comment('result..'.$word);
-            foreach($results as $result){
-                $this->info($word . '=>' . $result);
-            }
-        }
-        $this->assertTrue(true);
-
-        return null;
-    }
 
     /**
      * 设计文件
@@ -126,5 +102,3 @@ class BankTest extends BaseTest
         return null;
     }
 }
-
-

@@ -1,11 +1,23 @@
-Search suggest / elasticsearch
+search suggest (类似于google的搜索提示)
 ================
-[![Packagist](https://img.shields.io/packagist/dt/callwoola/searchsuggest.svg)](https://packagist.org/packages/callwoola/searchsuggest)
+[![Packagist](https://img.shields.io/packagist/dt/callwoola/search-suggest.svg)](https://packagist.org/packages/callwoola/search-suggest)
 
 ### 功能说明
 * 把句子分词后缓存转换成拼音缓存
 * 把句子分词后缓存
 * 当你输入英文 或者中文的时候，可以从缓存里获取匹配值返回
+
+
+## 使用
+
+![console](http://i.imgur.com/ootBGCJ.png?1)
+
+code:
+
+```php
+$suggest = new Suggest;
+$result = $suggest->search('word');
+```
 
 ## Usage
 

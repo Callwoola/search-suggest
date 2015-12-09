@@ -46,15 +46,19 @@ class Bank
 
         foreach($accounts as $account)
         {
-            $this->store->store($account->getName(),$account->getAmount());
+            if (strlen($account->getName()) > 5) {
+                $this->store->store($account->getName(),$account->getAmount());
+            }
         }
     }
 
     public function withdrawal($word)
     {
-        $word = Analyze::parse($word);
+        $parseWord = Analyze::parse($word);
+        $accounts = $this->store->find($parseWord);
+        $words = Analyze::sort($word,$accounts);
 
-        return $this->store->find($word);
+        return $words;
     }
 
     public function robAll()

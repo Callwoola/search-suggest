@@ -36,6 +36,8 @@ class Coin implements CoinInterface
      */
     public function setSentence($sentence)
     {
+        $sentence = strtolower($sentence);
+
         $this->sentence = $sentence;
     }
 
