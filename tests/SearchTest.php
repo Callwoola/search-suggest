@@ -21,11 +21,13 @@ class SearchTest extends BaseTest
     {
 
         $this->info("\n\r........................list............................\n\r");
+
         $keyList = (new RedisStore())->getAll();
         foreach ($keyList as $keyString)
         {
             $this->info($keyString);
         }
+
         $this->info("\n\r........................end list............................\n\r");
     }
 

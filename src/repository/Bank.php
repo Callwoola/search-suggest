@@ -54,12 +54,11 @@ class Bank
 
     public function withdrawal($word)
     {
-        $word = Analyze::parse($word);
-        $word = $this->store->find($word);
-        $word = Analyze::sort($word);
-        usort($word, 'strcmp');
+        $parseWord = Analyze::parse($word);
+        $accounts = $this->store->find($parseWord);
+        $words = Analyze::sort($word,$accounts);
 
-        return $word;
+        return $words;
     }
 
     public function robAll()

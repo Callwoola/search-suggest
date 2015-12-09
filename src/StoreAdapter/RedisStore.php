@@ -68,7 +68,6 @@ class RedisStore implements StoreInterface
      */
     public function find($name)
     {
-        // TODO 排序
         $strategy = (strlen($name) > 1) ? $this->prefix . '*' . $name . '*' : $this->prefix . $name . '*';
 
         $keyList =  $this->client->keys($strategy);
@@ -76,18 +75,10 @@ class RedisStore implements StoreInterface
 
         foreach ($keyList as $keyString)
         {
-            $list = $this->client->smembers($keyString);
-
-            foreach ($list as $eachString)
-            {
-                if (strlen($eachString) > 3)
-                {
-                    $returnList[] = $eachString;
-                }
-            }
+            $returnList += [$keyString => $this->client->smembers($keyString)];
         }
 
-        return array_slice(array_unique($returnList), 0, 10);
+        return $returnList;
     }
 
     public function setKey($name = '')

@@ -36,10 +36,6 @@ class Coin implements CoinInterface
      */
     public function setSentence($sentence)
     {
-//        $whiteSpace = '\s';  //if you dnt even want to allow white-space set it to ''
-//        $pattern = '/[^a-zA-Z0-9'  . $whiteSpace . ']/u';
-//        $sentence = preg_replace($pattern, '', (string) $sentence);
-//        echo $sentence . "\n\r";
         $sentence = strtolower($sentence);
 
         $this->sentence = $sentence;

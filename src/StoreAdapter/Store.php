@@ -2,6 +2,8 @@
 
 namespace Callwoola\SearchSuggest\StoreAdapter;
 
+use Callwoola\SearchSuggest\repository\Account;
+
 class Store implements StoreInterface
 {
     protected $store;
@@ -40,7 +42,7 @@ class Store implements StoreInterface
      */
     public function find($name)
     {
-        return $this->store->find($name);
+        return Account::generate(array_slice($this->store->find($name), 0, 10));
     }
 
     /**

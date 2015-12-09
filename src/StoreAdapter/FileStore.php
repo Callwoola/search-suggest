@@ -20,8 +20,7 @@ class FileStore implements StoreInterface
         file_put_contents($this->name, serialize($this->value));
     }
 
-
-    public function  find($name)
+    public function find($name)
     {
         return null;
     }
@@ -35,7 +34,6 @@ class FileStore implements StoreInterface
     {
         $this->value = $array;
     }
-
 
     /**
      * @param string $name

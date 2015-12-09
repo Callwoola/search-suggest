@@ -2,6 +2,7 @@
 
 namespace Callwoola\SearchSuggest\repository;
 
+use Callwoola\SearchSuggest\Currency\Sort;
 use Callwoola\SearchSuggest\Pinyin;
 use phpSplit\Split\Split;
 
@@ -113,10 +114,11 @@ class Analyze
         {
             // 添加
             $name = Pinyin::getPinyin($string) . '@' . Pinyin::getPinyinFirst($string) ;
+            $info = [];
 
             $account = new Account();
             $account->setName($name);
-            $account->addAmount($string);
+            $account->addAmount($string,$info);
             $generates[] = $account;
         }
 
@@ -136,10 +138,17 @@ class Analyze
     }
 
 
-    public function sort($origin,$compare)
+    public function sort($origin,array $accounts)
     {
-        similar_text($origin,$compare,$percent);
-        return $percent
+        $sorter = new Sort($origin, $accounts);
+        $results = $sorter->all();
+
+        return $results;
+//        return implode(', ', $results);
+//
+//        usort($matches, function ($a, $b) use ($word) {
+//            return similar_text($word,$a) - similar_text($word, $b);
+//        });
     }
 
     /**
