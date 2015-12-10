@@ -32,7 +32,7 @@ $result = $suggest->search('word');
 在composer.json文件中 **requird** 项中添加
 
 ```json
-"Callwoola/search-suggest": "0.1.3"
+"Callwoola/search-suggest": "1.0.1"
 ```
 
 更新项目依赖
