@@ -1,6 +1,7 @@
 search suggest (类似于google的搜索提示)
 ================
 [![Packagist](https://img.shields.io/packagist/dt/callwoola/search-suggest.svg)](https://packagist.org/packages/callwoola/search-suggest)
+[![Build Status](https://travis-ci.org/Callwoola/search-suggest.svg)](https://travis-ci.org/Callwoola/search-suggest)
 
 ### 功能说明
 * 把句子分词后缓存转换成拼音缓存
@@ -14,6 +15,13 @@ search suggest (类似于google的搜索提示)
 
 code:
 
+创建索引
+```php
+$suggest = new Suggest;
+$result = $suggest->createIndex(['word','word2']);
+```
+
+搜索
 ```php
 $suggest = new Suggest;
 $result = $suggest->search('word');
@@ -44,9 +52,10 @@ composer update -v
 'SearchSuggest' => 'Callwoola\SearchSuggest\Provider\Facades\Suggest',
 ```
 
-## Config
-...
+## frontend
+前端框架
 
+[link](https://github.com/xdan/autocomplete)(基于jQuery的自动提示插件)
 
 ## License
 
