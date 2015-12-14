@@ -92,6 +92,16 @@ class SearchTest extends BaseTest
                 $this->info('   '.$word . '=>' . $result);
             }
         }
+        $this->info("........................  system search............................\n\r");
+        $suggest = new Suggest();
+        foreach($words as $word)
+        {
+            $results = $suggest->search($word);
+            $this->comment("\n\r".'result..'.$word );
+            foreach($results as $result){
+                $this->info('   '.$word . '=>' . $result);
+            }
+        }
 
         $this->assertTrue(true);
 

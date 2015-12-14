@@ -138,7 +138,7 @@ class Analyze
     }
 
 
-    public function sort($origin,array $accounts)
+    public static function sort($origin,array $accounts)
     {
         $sorter = new Sort($origin, $accounts);
         $results = $sorter->all();
