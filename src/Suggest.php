@@ -52,7 +52,7 @@ class Suggest
     public function createIndex($dict = [])
     {
         // TODO 创建索引
-        $bank = new Bank();
+        $bank = $this->bank;
         $sentences = $dict;
 
         foreach ($sentences as $sentence)
