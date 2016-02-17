@@ -16,15 +16,14 @@ class RedisStore implements StoreInterface
 
 
     /**
-     * @param $config
+     * @param $connect
      * 实例化 REDIS 为数据媒介
      */
-    public function __construct($config = [])
+    public function __construct($connect)
     {
         // TODO 优化性能
-        $config = !isset($config) ? ['scheme' => 'tcp', 'host' => '127.0.0.1', 'port' => 6379,] : $config;
 
-        $this->client = new Client($config);
+        $this->client = $connect;
     }
 
     /**

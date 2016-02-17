@@ -14,8 +14,9 @@ class SearchProvider extends ServiceProvider
     public function register()
     {
         $this->app->bindShared('suggest', function ($app) {
+            $redis = $app['redis']->connection();
             $path = 'Callwoola\\SearchSuggest\\Suggest';
-            return new $path();
+            return new $path($redis);
         });
     }
 }

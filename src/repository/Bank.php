@@ -14,11 +14,12 @@ class Bank
 
 
     public function  __construct(
+        $connect
 //        StoreInterface $store
     )
     {
 //        $this->store = $store;
-        $this->store = new Store();
+        $this->store = new Store($connect);
     }
 
     public function find($key)

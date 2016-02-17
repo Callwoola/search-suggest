@@ -10,15 +10,21 @@ use Callwoola\SearchSuggest\repository\Coin;
  */
 class Suggest
 {
-    const VERSION = '0.1.3';
+    const VERSION = '0.2.0';
 
-    protected $bank;
     /**
-     *
+     * @var Bank
      */
-    public function __construct()
+    protected $bank;
+
+    /**
+     * Suggest constructor.
+     *
+     * @param $connect
+     */
+    public function __construct($connect)
     {
-        $this->bank = new Bank();
+        $this->bank = new Bank($connect);
     }
 
     /**
@@ -28,10 +34,12 @@ class Suggest
     public function search($word)
     {
         // TODO 设置私有词库
-        $bank = new Bank();
+        $bank = $this->bank;
         $suggests = [];
         $results = $bank->withdrawal($word);
-        foreach($results as $result){
+
+        foreach($results as $result)
+        {
             $suggests[] =  $result;
         }
 
@@ -46,7 +54,9 @@ class Suggest
         // TODO 创建索引
         $bank = new Bank();
         $sentences = $dict;
-        foreach ($sentences as $sentence) {
+
+        foreach ($sentences as $sentence)
+        {
             $bank->deposit(new Coin($sentence));
         }
     }

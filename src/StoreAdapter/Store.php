@@ -11,12 +11,12 @@ class Store implements StoreInterface
     /**
      * 根据默认 要求返回对象
      *
-     * @param string $switch
+     * @param string $connect
      */
-    public function __construct($switch = '')
+    public function __construct($connect = null)
     {
-        if (isset($switch)) {
-            $this->store = new RedisStore();
+        if (isset($connect)) {
+            $this->store = new RedisStore($connect);
         } else {
             $this->store = new FileStore();
         }
