@@ -37,12 +37,18 @@ class Store implements StoreInterface
     }
 
     /**
+     * 查找数据
+     *
      * @param string $name
      * @return mixed
      */
     public function find($name)
     {
-        return Account::generate(array_slice($this->store->find($name), 0, 10));
+        $result = $this->store->find($name);
+
+        return Account::generate(
+            array_slice($result, 0, 10)
+        );
     }
 
     /**

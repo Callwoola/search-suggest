@@ -2,66 +2,67 @@
 
 namespace Callwoola\SearchSuggest\repository;
 
-
 use Callwoola\SearchSuggest\StoreAdapter\Store;
 
 
+/**
+ * Class Bank
+ * @package Callwoola\SearchSuggest\repository
+ */
 class Bank
 {
-    private $currency;
-
+    /**
+     * @var Store
+     */
     protected $store;
 
 
-    public function  __construct(
-        $connect
-//        StoreInterface $store
-    )
+    /**
+     * Bank constructor.
+     * @param $connect
+     */
+    public function __construct($connect)
     {
-//        $this->store = $store;
         $this->store = new Store($connect);
     }
 
-    public function find($key)
-    {
-//        return storeRoom::instance()->find($key);
-    }
-
-    public function storeCoin($key = '', $array = [])
-    {
-//        $store = storeRoom::instance();
-    }
-
-    public function getCoin($name = '')
-    {
-    }
-
-    public function getStoreName()
-    {
-//        return $this->store->getName();
-    }
-
+    /**
+     * 存储一个内容
+     *
+     * @param Coin $coin
+     */
     public function deposit(Coin $coin)
     {
-        $accounts = Analyze::start($coin->getSentence());
-
-        foreach($accounts as $account)
-        {
-            if (strlen($account->getName()) > 5) {
-                $this->store->store($account->getName(),$account->getAmount());
-            }
-        }
+        return $this->store->store(
+            $coin->getCharName() . '@' . $coin->getClearName(),
+            $coin->getAccount()
+        );
     }
 
+
+    /**
+     * 查找匹配内容
+     *
+     * @param $word
+     * @return array
+     */
     public function withdrawal($word)
     {
         $parseWord = Analyze::parse($word);
+
         $accounts = $this->store->find($parseWord);
-        $words = Analyze::sort($word,$accounts);
+
+        $words = Analyze::sort($word, $accounts);
 
         return $words;
     }
 
+
+    /**
+     * 清空数据库
+     *
+     * @return mixed|void
+     */
     public function robAll()
     {
         return $this->store->clear();

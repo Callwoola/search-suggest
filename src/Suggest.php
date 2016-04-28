@@ -1,6 +1,8 @@
 <?php
 namespace Callwoola\SearchSuggest;
 
+use Exception;
+use Callwoola\SearchSuggest\StoreAdapter\RedisStore;
 use Callwoola\SearchSuggest\repository\Bank;
 use Callwoola\SearchSuggest\repository\Coin;
 
@@ -10,7 +12,7 @@ use Callwoola\SearchSuggest\repository\Coin;
  */
 class Suggest
 {
-    const VERSION = '0.2.0';
+    const VERSION = '0.3.0';
 
     /**
      * @var Bank
@@ -24,6 +26,9 @@ class Suggest
      */
     public function __construct($connect)
     {
+        $connect->select(RedisStore::DATABASE);
+        Pinyin::init();
+        
         $this->bank = new Bank($connect);
     }
 
@@ -33,31 +38,44 @@ class Suggest
      */
     public function search($word)
     {
-        // TODO 设置私有词库
-        $bank = $this->bank;
+        $bank     = $this->bank;
         $suggests = [];
-        $results = $bank->withdrawal($word);
+        $results  = $bank->withdrawal($word);
 
-        foreach($results as $result)
-        {
-            $suggests[] =  $result;
+        foreach ($results as $result) {
+            $suggests[] = $result;
         }
 
         return $suggests;
     }
 
     /**
-     * @param array $dict
+     * push a coin in suggest bank
+     *
+     * @param $coin
+     * @throws Exception
+     * @return bool
      */
-    public function createIndex($dict = [])
+    public function push($coin = [])
     {
-        // TODO 创建索引
-        $bank = $this->bank;
-        $sentences = $dict;
-
-        foreach ($sentences as $sentence)
-        {
-            $bank->deposit(new Coin($sentence));
+        if (!isset($coin['name']) OR !isset($coin['data'])) {
+            throw new Exception('Data parse error');
         }
+
+        $coin = Coin::parse($coin);
+        $bank = $this->bank;
+
+        return $bank->deposit($coin);
+    }
+
+
+    /**
+     * 清空数据库
+     *
+     * @return mixed|void
+     */
+    public function clear()
+    {
+        return $this->bank->robAll();
     }
 }

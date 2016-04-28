@@ -6,14 +6,15 @@ class Account
     protected $name   = '';
     protected $amount = [];
     protected $level  = 0;
-    protected $inventories = [];
+    protected $inventory = [];
 
     public static function generate($accounts)
     {
         $generete = [];
+
         foreach($accounts as $name => $amount)
         {
-            $generete[] = (new self)->setName($name)->setInventories($amount);
+            $generete[] = (new self)->setName($name)->setInventory($amount);
         }
 
         return $generete;
@@ -57,29 +58,17 @@ class Account
         return $this;
     }
 
-    /**
-     * @return array
-     */
-    public function getInventories()
+    public function getRaw()
     {
-        return array_map(function($inentory){
-            $inentory = explode('@', $inentory);
-            return [
-                'value' => $inentory[0],
-                'info'  => unserialize($inentory[1])
-            ];
-        }, $this->inventories);
+        return $this->inventory;
     }
 
     /**
-     * @param array $inventories
-     * @return self
+     * @return array
      */
-    public function setInventories($inventories)
+    public function getInventory()
     {
-        $this->inventories = $inventories;
-
-        return $this;
+        return unserialize($this->inventory);
     }
 
     /**
@@ -88,6 +77,17 @@ class Account
     public function getAmount()
     {
         return $this->amount;
+    }
+
+    /**
+     * @param array $inventory
+     * @return self
+     */
+    public function setInventory($inventory)
+    {
+        $this->inventory = $inventory;
+
+        return $this;
     }
 
     /**

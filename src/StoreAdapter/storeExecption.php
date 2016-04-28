@@ -2,9 +2,7 @@
 
 namespace Callwoola\SearchSuggest\StoreAdapter;
 
-
 use UnexpectedValueException as BaseUnexpectedValueException;
-
 
 /**
  * 储存错误

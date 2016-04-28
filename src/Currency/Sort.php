@@ -2,13 +2,16 @@
 
 namespace Callwoola\SearchSuggest\Currency;
 
+use Callwoola\SearchSuggest\StoreAdapter\RedisStore;
+
 /**
  * Currency 排序类
+ * TODO 优化存储器
  *
- * Class Sort
  * @package Callwoola\SearchSuggest\Currency
  */
-class Sort{
+class Sort
+{
 
     /**
      * @var string Needle
@@ -44,12 +47,15 @@ class Sort{
     {
         $sorted_haystack = [];
 
-        foreach ($this->haystack as $inventory) {
-            foreach($inventory->getInventories() as $amount) {
-                $string = $amount['value'];
-                $sorted_haystack[$string] = $this->levenshteinUtf8($this->needle, $string);
-            }
+        foreach ($this->haystack as $inventory)
+        {
+            //foreach($inventory->getInventories() as $amount)
+            //{
+            $string = str_replace(RedisStore::PREFIX, '', $inventory->getName());
+            $sorted_haystack[$string] = $this->levenshteinUtf8($this->needle, $string);
+            //}
         }
+
         asort($sorted_haystack);
 
         $this->sorted_haystack = $sorted_haystack;
@@ -62,6 +68,7 @@ class Sort{
     {
         $this->sortHaystack();
         reset($this->sorted_haystack);
+
         return key($this->sorted_haystack);
     }
 
@@ -71,13 +78,15 @@ class Sort{
     public function all()
     {
         $this->sortHaystack();
+
         return array_keys($this->sorted_haystack);
     }
 
     /**
      * @return bool
      */
-    public function hasExactMatch() {
+    public function hasExactMatch()
+    {
         return in_array($this->needle, $this->haystack);
     }
 

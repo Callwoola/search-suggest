@@ -7,15 +7,11 @@
   ],
   "license": "proprietary",
   "authors": [
-    {
-      "name": "Neo",
-      "email": "call@woola.net"
-    }
+    {"name": "Neo", "email": "call@woola.net"}
   ],
   "require": {
     "php": ">=5.4.0",
     "predis/predis": "0.8.*",
-    "Callwoola/php-split": "1.0.0",
     "illuminate/console": "~4",
     "overtrue/pinyin": "2.*"
   },
@@ -36,10 +32,7 @@
   },
   "minimum-stability": "dev",
   "repositories": [
-    {
-      "type": "composer",
-      "url": "http://packagist.phpcomposer.com"
-    },
+    {"type": "composer", "url": "https://packagist.phpcomposer.com"},
     {"packagist": false}
   ]
 }

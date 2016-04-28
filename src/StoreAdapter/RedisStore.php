@@ -6,7 +6,8 @@ use Predis\Client;
 
 class RedisStore implements StoreInterface
 {
-    private $prefix = 'php-suggest-redis-prefix-';
+    const PREFIX   = 'PHP-SUGGEST-REDIS-PREFIX-';
+    const DATABASE = '15';
 
     private $name;
 
@@ -14,15 +15,13 @@ class RedisStore implements StoreInterface
 
     private $client;
 
-
     /**
-     * @param $connect
      * 实例化 REDIS 为数据媒介
+     *
+     * @param $connect
      */
     public function __construct($connect)
     {
-        // TODO 优化性能
-
         $this->client = $connect;
     }
 
@@ -35,28 +34,15 @@ class RedisStore implements StoreInterface
      */
     public function store($key = null, $value = null)
     {
-        if ($this->client instanceof Client) {
+        if ($this->client instanceof Client)
+        {
             $key   = $key == null ? $this->name : $key;
             $value = $value == null ? $this->value : $value;
-            if (is_array($value) AND count($value) > 0) {
-                foreach ($value as $singleValue)
-                {
-                    $this->client->sadd($this->prefix . $key, $singleValue);
-                }
-            } elseif (is_string($value)) {
-                $this->client->set($this->prefix . $key, $value);
-            }
 
-
-            return;
+            return $this->client->set(self::PREFIX . $key, serialize($value));
         }
 
         throw new CanNotStoreException();
-    }
-
-    public function get($name)
-    {
-
     }
 
     /**
@@ -67,14 +53,18 @@ class RedisStore implements StoreInterface
      */
     public function find($name)
     {
-        $strategy = (strlen($name) > 1) ? $this->prefix . '*' . $name . '*' : $this->prefix . $name . '*';
+        $strategy = (strlen($name) > 1)
+            ? self::PREFIX . '*' . $name . '*'
+            : self::PREFIX . $name . '*';
 
-        $keyList =  $this->client->keys($strategy);
+        $keyList    = $this->client->keys($strategy);
         $returnList = [];
 
         foreach ($keyList as $keyString)
         {
-            $returnList += [$keyString => $this->client->smembers($keyString)];
+            $returnList += [
+                $keyString => $this->client->get($keyString)
+            ];
         }
 
         return $returnList;

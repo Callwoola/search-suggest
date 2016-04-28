@@ -11,8 +11,6 @@ search suggest (类似于google的搜索提示)
 
 ## 使用
 
-![console](http://i.imgur.com/ootBGCJ.png?1)
-
 code:
 
 创建索引

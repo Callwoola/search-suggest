@@ -2,43 +2,87 @@
 
 namespace Callwoola\SearchSuggest\repository;
 
+use Callwoola\SearchSuggest\Pinyin;
+
 /**
- * 分析每个字符串的内容
- * 方便管理长句子
- * TODO 分词以及拼音管理
+ * 分析数据内容
  *
  * @package Callwoola\SearchSuggest\repository
  */
-class Coin implements CoinInterface
+class Coin
 {
-
-    protected $sentence = '';
+    protected $name    = '';
+    protected $account = [];
 
     /**
-     * @param $string
+     * 解析一个 coin
+     *
+     * @param $coin
      */
-    public function __construct($string = '')
+    protected function __construct(Array $coin)
     {
-        $this->setSentence($string);
+        $this->setName($coin['name']);
+        $this->setAccount($coin['data']);
+    }
+
+    public static function parse($coin)
+    {
+        return new self($coin);
     }
 
     /**
-     * @return mixed
+     * @param  $data
      */
-    public function getSentence()
+    public function setAccount($data)
     {
-        return $this->sentence;
+        $this->account = $data;
     }
 
     /**
-     * @param string $sentence
-     * @return void
+     * @param  $name
      */
-    public function setSentence($sentence)
+    public function setName($name)
     {
-        $sentence = strtolower($sentence);
-
-        $this->sentence = $sentence;
+        $this->name = $name;
     }
 
+    /**
+     * @return array
+     */
+    public function getAccount()
+    {
+        $this->account['raw_name'] = $this->name;
+
+        return $this->account;
+    }
+
+    /**
+     * 生成拼音
+     *
+     * @return string
+     */
+    public function getCharName()
+    {
+        return preg_replace('/[[:punct:]]/u', '', Pinyin::getPinyin($this->name));
+    }
+
+    /**
+     * 得到原始名称
+     *
+     * @return string
+     */
+    public function getRawName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * 返回干净的字符串
+     *
+     * @return string
+     */
+    public function getClearName()
+    {
+        return preg_replace('/[[:punct:]]/u', '', $this->name);
+    }
 }

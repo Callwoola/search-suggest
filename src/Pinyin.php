@@ -38,9 +38,9 @@ class Pinyin
      */
     protected $pinyin;
 
-    public function __construct()
+    public static function init()
     {
-        BasePinyin::set('accent',false);
+        BasePinyin::set('accent', false);
         BasePinyin::set('delimiter', '');
     }
 
