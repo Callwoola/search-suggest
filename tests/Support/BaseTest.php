@@ -6,6 +6,12 @@ use SuggestTest\Data\TestData;
 use Illuminate\Console\Command;
 use Symfony\Component\Console\Output\ConsoleOutput;
 
+/**
+ * output base class
+ *
+ * Class baseTestCommand
+ * @package SuggestTest\Support
+ */
 class baseTestCommand extends Command
 {
     protected $name = "suggest test";
@@ -18,6 +24,10 @@ class baseTestCommand extends Command
     }
 }
 
+/**
+ * Class BaseTest
+ * @package SuggestTest\Support
+ */
 class BaseTest extends \PHPUnit_Framework_TestCase
 {
     use TestData;
@@ -37,9 +47,9 @@ class BaseTest extends \PHPUnit_Framework_TestCase
 
         // 默认媒介redis
         $this->connect = new Predis\Client([
-            'scheme'    => 'tcp',
-            'host'      => '127.0.0.1',
-            'port'      => 6379,
+            'scheme' => 'tcp',
+            'host'   => '127.0.0.1',
+            'port'   => 6379,
         ]);
     }
 

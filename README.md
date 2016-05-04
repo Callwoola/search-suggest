@@ -16,7 +16,12 @@ code:
 创建索引
 ```php
 $suggest = new Suggest;
-$result = $suggest->createIndex(['word','word2']);
+$result = $suggest->push([
+	'name' => 'untitle',
+	'data' => [
+		...
+	]
+]);
 ```
 
 搜索
@@ -30,7 +35,7 @@ $result = $suggest->search('word');
 在composer.json文件中 **requird** 项中添加
 
 ```json
-"Callwoola/search-suggest": "1.0.1"
+"Callwoola/search-suggest": "1.3.1"
 ```
 
 更新项目依赖

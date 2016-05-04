@@ -17,7 +17,6 @@ class BankTest extends BaseTest
      */
     public function testIndex()
     {
-        
         $suggest = new Suggest($this->connect);
 
         $suggest->clear();

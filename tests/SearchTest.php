@@ -6,22 +6,9 @@ use SuggestTest\Support\BaseTest;
 
 class SearchTest extends BaseTest
 {
-    //public function testSearch()
-    //{
-    //    $suggest = new Suggest($this->connect);
-    //
-    //    $this->info('start search...');
-    //
-    //    $test = $suggest->search('纹理');
-    //
-    //    var_dump($test);
-    //
-    //    $this->assertTrue(true);
-    //}
-
-
     /**
      * 简单搜索测试
+     *
      * @return void
      */
     public function testSearch()
@@ -29,6 +16,7 @@ class SearchTest extends BaseTest
         $this->info("start search...");
 
         $suggest = new Suggest($this->connect);
+
         $words = [
             '进口',
             '中式',
