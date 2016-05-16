@@ -2,6 +2,9 @@
 
 namespace Callwoola\SearchSuggest\StoreAdapter;
 
+use Callwoola\SearchSuggest\repository\Cheque;
+use Callwoola\SearchSuggest\repository\Coin;
+
 /**
  * Interface StoreInterface
  * @package Callwoola\SearchSuggest\StoreAdapter
@@ -9,18 +12,17 @@ namespace Callwoola\SearchSuggest\StoreAdapter;
 interface StoreInterface
 {
     /**
-     * @param string $key
-     * @param string $value
+     * @param Coin $coin
      * @return mixed
      */
-    public function store($key,$value);
+    public function store(Coin $coin);
 
 
     /**
-     * @param string $name
+     * @param Cheque $cheque
      * @return mixed
      */
-    public function find($name);
+    public function find(Cheque $cheque);
 
     /**
      * @param string $name

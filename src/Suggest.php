@@ -12,7 +12,7 @@ use Callwoola\SearchSuggest\repository\Coin;
  */
 class Suggest
 {
-    const VERSION = '1.3.1';
+    const VERSION = '1.3.2';
 
     /**
      * @var Bank
@@ -34,13 +34,14 @@ class Suggest
 
     /**
      * @param string $word
+     * @param string $type
      * @return array
      */
-    public function search($word)
+    public function search($word, $type = '')
     {
         $bank     = $this->bank;
         $suggests = [];
-        $results  = $bank->withdrawal($word);
+        $results  = $bank->withdrawal($word ,$type);
 
         foreach ($results as $result) {
             $suggests[] = $result;

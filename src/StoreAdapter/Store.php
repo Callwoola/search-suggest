@@ -2,6 +2,8 @@
 
 namespace Callwoola\SearchSuggest\StoreAdapter;
 
+use Callwoola\SearchSuggest\repository\Cheque;
+use Callwoola\SearchSuggest\repository\Coin;
 use Callwoola\SearchSuggest\repository\Account;
 
 class Store implements StoreInterface
@@ -24,13 +26,12 @@ class Store implements StoreInterface
 
     /**
      * @param string $key
-     * @param string $value
      * @return void
      */
-    public function store($key, $value)
+    public function store(Coin $coin)
     {
         try {
-            $this->store->store($key, $value);
+            $this->store->store($coin);
         } catch (CanNotStoreException $exception) {
             $exception->getMessage();
         }
@@ -39,12 +40,12 @@ class Store implements StoreInterface
     /**
      * 查找数据
      *
-     * @param string $name
+     * @param Cheque $cheque
      * @return mixed
      */
-    public function find($name)
+    public function find(Cheque $cheque)
     {
-        $result = $this->store->find($name);
+        $result = $this->store->find($cheque);
 
         return Account::generate(
             array_slice($result, 0, 10)

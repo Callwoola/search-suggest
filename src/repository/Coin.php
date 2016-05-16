@@ -3,6 +3,7 @@
 namespace Callwoola\SearchSuggest\repository;
 
 use Callwoola\SearchSuggest\Pinyin;
+use SebastianBergmann\RecursionContext\Exception;
 
 /**
  * 分析数据内容
@@ -11,18 +12,33 @@ use Callwoola\SearchSuggest\Pinyin;
  */
 class Coin
 {
+    use Key;
+
     protected $name    = '';
     protected $account = [];
+    protected $type    = '';
 
     /**
      * 解析一个 coin
      *
      * @param $coin
+     * @throws \Exception
      */
     protected function __construct(Array $coin)
     {
+        if (!(
+            isset($coin['name']) AND !empty($coin['name']) AND
+            isset($coin['data']) AND is_array($coin['data']) AND
+            isset($coin['type']) AND !empty($coin['type'])
+        )) {
+            throw new \Exception('Requisite data is empty');
+        }
+
+        $this->word = $coin['name'];
+
         $this->setName($coin['name']);
         $this->setAccount($coin['data']);
+        $this->setType($coin['type']);
     }
 
     public static function parse($coin)
@@ -46,6 +62,15 @@ class Coin
         $this->name = $name;
     }
 
+
+    /**
+     * @param  $type
+     */
+    public function setType($type)
+    {
+        $this->type = $type;
+    }
+
     /**
      * @return array
      */
@@ -57,14 +82,22 @@ class Coin
     }
 
     /**
-     * 生成拼音
-     *
      * @return string
      */
-    public function getCharName()
+    public function getType()
     {
-        return preg_replace('/[[:punct:]]/u', '', Pinyin::getPinyin($this->name));
+        return $this->type;
     }
+
+    ///**
+    // * 生成拼音
+    // *
+    // * @return string
+    // */
+    //public function getCharName()
+    //{
+    //    return preg_replace('/[[:punct:]]/u', '', Pinyin::getPinyin($this->name));
+    //}
 
     /**
      * 得到原始名称
@@ -76,13 +109,13 @@ class Coin
         return $this->name;
     }
 
-    /**
-     * 返回干净的字符串
-     *
-     * @return string
-     */
-    public function getClearName()
-    {
-        return preg_replace('/[[:punct:]]/u', '', $this->name);
-    }
+    ///**
+    // * 返回干净的字符串
+    // *
+    // * @return string
+    // */
+    //public function getClearName()
+    //{
+    //    return preg_replace('/[[:punct:]]/u', '', $this->name);
+    //}
 }

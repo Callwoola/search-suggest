@@ -45,17 +45,6 @@ class Analyze
     }
 
     /**
-     * @param $word
-     * @return string
-     */
-    public static function parse($word)
-    {
-        $word = Pinyin::getPinyin($word);
-
-        return strtolower($word);
-    }
-
-    /**
      * 经典排序法
      *
      * @param $origin
@@ -69,7 +58,6 @@ class Analyze
 
         return self::revertData($results,$accounts);
     }
-
 
     /**
      * @param $keies
@@ -88,4 +76,16 @@ class Analyze
         return $result;
     }
 
+    /**
+     * 返回干净的字符串
+     *
+     * @param string $name
+     * @return string;
+     */
+    public static function clear($name)
+    {
+        return strtolower(
+            preg_replace('/[[:punct:]]/u', '', $name)
+        );
+    }
 }

@@ -33,10 +33,7 @@ class Bank
      */
     public function deposit(Coin $coin)
     {
-        return $this->store->store(
-            $coin->getCharName() . '@' . $coin->getClearName(),
-            $coin->getAccount()
-        );
+        return $this->store->store($coin);
     }
 
 
@@ -46,11 +43,11 @@ class Bank
      * @param $word
      * @return array
      */
-    public function withdrawal($word)
+    public function withdrawal($word, $type)
     {
-        $parseWord = Analyze::parse($word);
-
-        $accounts = $this->store->find($parseWord);
+        $accounts = $this->store->find(
+            Cheque::parse($word,$type)
+        );
 
         $words = Analyze::sort($word, $accounts);
 

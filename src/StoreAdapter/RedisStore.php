@@ -2,7 +2,9 @@
 
 namespace Callwoola\SearchSuggest\StoreAdapter;
 
+use Callwoola\SearchSuggest\repository\Cheque;
 use Predis\Client;
+use Callwoola\SearchSuggest\repository\Coin;
 
 class RedisStore implements StoreInterface
 {
@@ -28,18 +30,19 @@ class RedisStore implements StoreInterface
     /**
      * 储存单值以及 多值
      *
-     * @param null $key
-     * @param null $value
+     * @param Coin $coin
      * @return void
      */
-    public function store($key = null, $value = null)
+    public function store(Coin $coin)
     {
+        $value = $coin->getAccount();
+        $key = $coin->getKey();
+
         if ($this->client instanceof Client)
         {
-            $key   = $key == null ? $this->name : $key;
             $value = $value == null ? $this->value : $value;
 
-            return $this->client->set(self::PREFIX . $key, serialize($value));
+            return $this->client->set($key, serialize($value));
         }
 
         throw new CanNotStoreException();
@@ -48,23 +51,26 @@ class RedisStore implements StoreInterface
     /**
      * 全匹配数据 返回最合理的10个
      *
-     * @param string $name
+     * @param Cheque $cheque
      * @return array
      */
-    public function find($name)
+    public function find(Cheque $cheque)
     {
-        $strategy = (strlen($name) > 1)
-            ? self::PREFIX . '*' . $name . '*'
-            : self::PREFIX . $name . '*';
+        $strategies = $cheque->getSearchKey();
 
-        $keyList    = $this->client->keys($strategy);
         $returnList = [];
 
-        foreach ($keyList as $keyString)
+        // 合并策略组
+        foreach($strategies as $strategy)
         {
-            $returnList += [
-                $keyString => $this->client->get($keyString)
-            ];
+            $keyList = $this->client->keys($strategy);
+
+            foreach ($keyList as $keyString)
+            {
+                $returnList += [
+                    $keyString => $this->client->get($keyString)
+                ];
+            }
         }
 
         return $returnList;

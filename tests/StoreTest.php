@@ -17,15 +17,21 @@ class BankTest extends BaseTest
      */
     public function testIndex()
     {
+        $this->info("start store...");
+
         $suggest = new Suggest($this->connect);
 
         $suggest->clear();
 
-        foreach ($this->getJson() as $item)
+        $storeRecords = $this->getJson();
+
+        foreach ($storeRecords as $item)
         {
+            $item['type'] = self::TYPE_ONE;
             $this->info($item['name']);
-            $suggest->push($item);
+            $suggest->push($item, 'test');
         }
+        $this->info('withdrawal ' . count($storeRecords) . ' coin');
 
         $this->assertTrue(true);
     }

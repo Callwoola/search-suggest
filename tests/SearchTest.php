@@ -16,11 +16,10 @@ class SearchTest extends BaseTest
         $this->info("start search...");
 
         $suggest = new Suggest($this->connect);
+        $this->error('init test time:');
+        $this->error(microtime() - $this->baseStartTime);
 
         $words = [
-            '进口',
-            '中式',
-            'zs',
             'zhong',
             'm',
             'ji',
@@ -28,31 +27,39 @@ class SearchTest extends BaseTest
             'ck',
             'pvc',
             's',
-            'EVO',
-            'samsung',
         ];
 
         $specialTakeCare = [
             'iphone',
-            'shou',
+            's',
+            '美生',
+            '美生雅素丽',
+            '美生·雅素丽',
         ];
 
         $insertWords = [
-            '软包',
-            'boom',
+            'ruanbao',
+            '钰尚.如易',
+            '深',
+            'shenz',
+            '天下',
         ];
 
         $words = array_merge($words, $specialTakeCare, $insertWords);
 
         foreach($words as $word)
         {
-            $results = $suggest->search($word);
+            $start = microtime();
+
+            $results = $suggest->search($word, self::TYPE_ONE);
+
+            $this->error(microtime() - $start);
 
             $this->comment("\n\r".'result..'.$word );
 
             foreach($results as $result)
             {
-                $this->info('   ' . $word . '=>' . serialize($result));
+                $this->info('   ' . $word . '=>' . $result['raw_name']);
             }
         }
 
