@@ -51,7 +51,7 @@ class Bank
 
         $words = Analyze::sort($word, $accounts);
 
-        return $words;
+        return array_slice($words, 0, 10);
     }
 
 

@@ -47,9 +47,7 @@ class Store implements StoreInterface
     {
         $result = $this->store->find($cheque);
 
-        return Account::generate(
-            array_slice($result, 0, 10)
-        );
+        return Account::generate($result);
     }
 
     /**

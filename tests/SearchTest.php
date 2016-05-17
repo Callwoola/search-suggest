@@ -23,15 +23,13 @@ class SearchTest extends BaseTest
             'zhong',
             'm',
             'ji',
-            '窗框',
-            'ck',
             'pvc',
+            's',
+            'iphone',
             's',
         ];
 
         $specialTakeCare = [
-            'iphone',
-            's',
             '美生',
             '美生雅素丽',
             '美生·雅素丽',
