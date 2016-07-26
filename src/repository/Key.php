@@ -2,11 +2,13 @@
 
 namespace Callwoola\SearchSuggest\repository;
 
+
+use Callwoola\SearchSuggest\Suggest;
 use Callwoola\SearchSuggest\Pinyin;
 use Callwoola\SearchSuggest\StoreAdapter\RedisStore;
 
 trait Key
-{
+{    
     /**
      * @var string
      */
@@ -29,22 +31,36 @@ trait Key
      *
      * @return string
      */
-    public function getSearchKey()
+    public function getSearchKey($keyChain = [Suggest::KEY_RAW, Suggest::KEY_PINYIN])
     {
-        $pinyin = Analyze::clear(Pinyin::getPinyin($this->word));
-        $word = Analyze::clear($this->word);
-
         $keys = [];
 
-        // raw char
-        $keys[] = (strlen($this->word) > 1)
-            ? RedisStore::PREFIX . $this->getType() . '#' . '*' . '@' . '*' . $word . '*'
-            : RedisStore::PREFIX . $this->getType() . '#' . '*' . '@' . $word . '*';
+        // check have pinyin word
+        if (Suggest::$config['cn_inlcude_pinyin'] != true) {
+            $keyChain = [Suggest::KEY_RAW];
+        }
 
-        // pinyin
-        $keys[] = (strlen($this->word) > 1)
-            ? RedisStore::PREFIX . $this->getType() . '#' . '*' . $pinyin . '*' . '@' . '*'
-            : RedisStore::PREFIX . $this->getType() . '#' . $pinyin . '*' . '@' . '*';
+        // generate keys for search
+        foreach ($keyChain as $key)
+        {
+            if ($key == Suggest::KEY_RAW) {
+                // raw char
+                $word = Analyze::clear($this->word);
+
+                $keys[] = (strlen($this->word) > 1)
+                        ? RedisStore::PREFIX . $this->getType() . '#' . '*' . '@' . '*' . $word . '*'
+                        : RedisStore::PREFIX . $this->getType() . '#' . '*' . '@' . $word . '*';            
+            }
+
+            if ($key == Suggest::KEY_PINYIN) {
+                // pinyin
+                $pinyin = Analyze::clear(Pinyin::getPinyin($this->word));
+
+                $keys[] = (strlen($this->word) > 1)
+                        ? RedisStore::PREFIX . $this->getType() . '#' . '*' . $pinyin . '*' . '@' . '*'
+                        : RedisStore::PREFIX . $this->getType() . '#' . $pinyin . '*' . '@' . '*';
+            }
+        }
 
         return $keys;
     }

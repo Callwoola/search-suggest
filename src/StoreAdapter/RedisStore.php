@@ -49,7 +49,8 @@ class RedisStore implements StoreInterface
     }
 
     /**
-     * 全匹配数据 返回最合理的10个
+     * 全匹配数据
+     * TODO allow setting result number
      *
      * @param Cheque $cheque
      * @return array

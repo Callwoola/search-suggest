@@ -20,8 +20,11 @@ class Store implements StoreInterface
         if (isset($connect)) {
             $this->store = new RedisStore($connect);
         } else {
-            $this->store = new FileStore();
+            throw new \Exception('Can\'t found any redis connection!');
         }
+        // } else {
+        //     $this->store = new FileStore();
+        // }
     }
 
     /**

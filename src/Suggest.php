@@ -14,21 +14,43 @@ class Suggest
 {
     const VERSION = '1.3.3';
 
+    const KEY_RAW = 'raw';
+
+    const KEY_PINYIN = 'pinyin';
+
     /**
      * @var Bank
      */
     protected $bank;
 
     /**
+     * @var array
+     */
+    public static $config = [
+        'cn_inlcude_pinyin' => true
+    ];
+
+    /**
      * Suggest constructor.
      *
      * @param $connect
+     * @param $config
      */
-    public function __construct($connect)
+    public function __construct($connect, $prepare = [])
     {
         $connect->select(RedisStore::DATABASE);
         Pinyin::init();
-        
+
+        if (!empty($prepare))
+        {
+            foreach (self::$config as $name => $value)
+            {
+                if (isset($prepare[$name]) AND is_bool($prepare[$name])) {
+                    self::$config[$name] = $prepare[$name];
+                }
+            }
+        }
+
         $this->bank = new Bank($connect);
     }
 

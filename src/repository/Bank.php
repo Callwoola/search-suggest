@@ -19,6 +19,7 @@ class Bank
 
     /**
      * Bank constructor.
+     *
      * @param $connect
      */
     public function __construct($connect)

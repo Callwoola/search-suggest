@@ -11,7 +11,7 @@ class SearchTest extends BaseTest
      *
      * @return void
      */
-    public function testSearch()
+    public function test_search()
     {
         $this->info("start search...");
 
@@ -62,6 +62,18 @@ class SearchTest extends BaseTest
         }
 
         $this->info("end search...");
+
+        $this->assertTrue(true);
+    }
+
+    public function test_online_chinese()
+    {
+        $suggest = new Suggest($this->connect, [
+            'cn_inlcude_pinyin' => false
+        ]);
+
+        $results = $suggest->search("大理", self::TYPE_ONE);
+        var_dump($results);
 
         $this->assertTrue(true);
     }
