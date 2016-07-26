@@ -12,7 +12,7 @@ use Callwoola\SearchSuggest\repository\Coin;
  */
 class Suggest
 {
-    const VERSION = '1.3.3';
+    const VERSION = '1.3.4';
 
     const KEY_RAW = 'raw';
 
