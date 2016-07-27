@@ -296,3 +296,8 @@ tests/tmp/*
 /*.sh
 /*.bat
 /composer.lock
+
+## emacs
+/.ac-php-conf.json
+*~
+*#*

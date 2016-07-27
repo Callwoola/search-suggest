@@ -55,6 +55,13 @@ composer update -v
 'SearchSuggest' => 'Callwoola\SearchSuggest\Provider\Facades\Suggest',
 ```
 
+在config的 database.php 配置
+```php
+    'suggest' => [
+        'database' => {{redis_database_number}}
+    ],
+```
+
 ## frontend
 前端框架
 

@@ -66,10 +66,23 @@ class SearchTest extends BaseTest
         $this->assertTrue(true);
     }
 
-    public function test_online_chinese()
+    public function test_only_chinese()
     {
         $suggest = new Suggest($this->connect, [
             'cn_inlcude_pinyin' => false
+        ]);
+
+        $results = $suggest->search("大理", self::TYPE_ONE);
+        var_dump($results);
+
+        $this->assertTrue(true);
+    }
+
+    public function test_choose_redis()
+    {
+        $this->info('-- test choose detabase --');
+        $suggest = new Suggest($this->connect, [
+            'database' => 13
         ]);
 
         $results = $suggest->search("大理", self::TYPE_ONE);
